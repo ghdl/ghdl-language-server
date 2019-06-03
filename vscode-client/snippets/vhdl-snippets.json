@@ -1,0 +1,63 @@
+{
+	"Library": {
+		"prefix": "library",
+		"body": [ "library ${1:ieee};"],
+		"description": "library"
+	},
+	"Use": {
+		"prefix": "use",
+		"body": [ "use ${1:ieee.std_logic_1164}.all;"],
+		"description": "use clause"
+	},
+	"Entity": {
+	"prefix": "entity",
+		"body": [
+			"entity ${1:$TM_FILENAME_BASE} is",
+			"  port (${2:ports});",
+		    "end ${1};"
+		],
+		"description": "entity"
+	},
+	"Architecture": {
+		"prefix": "architecture",
+		"body": [
+			"architecture ${1:behav} of ${2:$TM_FILENAME_BASE} is",
+			"begin",
+			"end ${1};"
+		],
+		"description": "architecture"
+	},
+	"Process": {
+		"prefix": "process",
+		"body": [
+			"process",
+			"begin",
+			"end process;"
+		]
+	},
+	"Procedure": {
+		"prefix": "procedure",
+		"body": [
+			"procedure ${1:name} (${2:params}) is",
+			"begin",
+			"end ${1};"
+		],
+		"description": "procedure body"
+	},
+	"Package": {
+		"prefix": "package",
+		"body": [
+			"package ${1:name} is",
+			"end ${1};"
+		],
+		"description": "package declaration"
+	},
+	"PackageBody": {
+		"prefix": "package",
+		"body": [
+			"package body ${1:name} is",
+			"end ${1};"
+		],
+		"description": "package body"
+	}
+}

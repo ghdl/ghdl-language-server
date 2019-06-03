@@ -1,0 +1,85 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "VHDL",
+	"patterns": [
+		{
+			"name": "comment.line.double-dash.vhdl",
+			"match": "--.*\\n"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#identifiers"
+		},
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.vhdl",
+				"match": "(?i)\\b(assert|next|if|then|else|elsif|exit|loop|while|case|for|report|return|wait)\\b"
+			},
+			{
+				"name": "keyword.mode.vhdl",
+				"match": "(?i)\\b(in|out|inout|buffer|linkage)\\b"
+			},
+			{
+				"name": "keyword.designunit.vhdl",
+				"match": "(?i)\\b(entity|package|body|architecture|configuration)\\b"
+			},
+			{
+				"name": "keyword.concurrent.vhdl",
+				"match": "(?i)\\b(process|generate|block|with|select)\\b"
+			},
+			{
+				"name": "keyword.type.vhdl",
+				"match": "(?i)\\b(access|array|protected|range|record|units)\\b"
+			},
+			{
+				"name": "keyword.other.vhdl",
+				"match": "(?i)\\b(context|parameter|postponed|disconnect|begin|end|is|of|others|all|use|to|downto|after|new|on|open|when|severity|until|map|bus|register|null)\\b"
+			},
+			{
+				"name": "keyword.operators.vhdl",
+				"match": "(?i)\\b(abs|and|nand|not|nor|or|xnor|xor|mod|rem|sll|srl|sla|sra|rol|ror)\\b"
+			},
+			{
+				"name": "storage.type.vhdl",
+				"match": "(?i)\\b(attribute|alias|group|signal|constant|variable|file|component|port|generic|procedure|function|pure|impure|shared|subtype|type|library)\\b"
+			},
+			{
+				"name": "keyword.assertions.vhdl",
+				"match": "(?i)\\b(default|clock|always|eventually|abort|never)\\b"
+			}]
+		},
+		"identifiers": {
+			"patterns": [{
+				"name": "entity.name.type.standard",
+				"match": "(?i)\\b(natural|integer|boolean|character|string|real|bit|bit_vector|time)\\b"
+			},
+			{
+				"name": "entity.name.type.ieee",
+				"match": "(?i)\\b(std_logic|std_logic_vector|std_ulogic|std_ulogic_vector|signed|unsigned)\\b"
+			},
+			{
+				"name": "identifier",
+				"match": "\\b([a-zA-Z][a-zA-Z0-9_]*)\\b"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.vhdl",
+			"begin": "(?<!')\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.vhdl",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.vhdl"
+}

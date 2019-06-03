@@ -1,0 +1,14 @@
+Creating a project from HDLMake:
+
+hdl-prj.json: Makefile
+	echo "{ \"files\": [" > $@
+	comma=false; for f in $(SOURCES_VerilogFile); do \
+	  if [ $$comma == "true" ]; then echo "," >> $@; else comma=true; fi; \
+	  echo -n "  { \"file\": \"$$f\", \"language\": \"verilog\"}" >> $@; \
+	done; \
+	for f in $(SOURCES_VHDLFile); do \
+	  if [ $$comma == "true" ]; then echo "," >> $@; else comma=true; fi; \
+	  echo -n "  { \"file\": \"$$f\", \"language\": \"vhdl\"}" >> $@; \
+	done
+	echo >> $@
+	echo "]}" >> $@
