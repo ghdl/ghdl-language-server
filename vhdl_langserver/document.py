@@ -7,6 +7,8 @@ import libghdl.thin.files_map_editor as files_map_editor
 import libghdl.thin.libraries as libraries
 import libghdl.thin.vhdl.nodes as nodes
 import libghdl.thin.vhdl.sem_lib as sem_lib
+import libghdl.thin.vhdl.sem as sem
+import libghdl.thin.vhdl.formatters as formatters
 
 from . import symbols, references
 
@@ -116,11 +118,12 @@ class Document(object):
         if self._tree == nodes.Null_Iir:
             # No units, nothing to add.
             return
+        nodes.Set_Design_File_Source(self._tree, self._fe)
         log.debug("add_to_library(%u) -> %u", tree, self._tree)
         # Semantic analysis.
         unit = nodes.Get_First_Design_Unit(self._tree)
         while unit != nodes.Null_Iir:
-            sem_lib.Finish_Compilation(unit, False)
+            sem.Semantic(unit)
             nodes.Set_Date_State(unit, nodes.Date_State.Analyze)
             unit = nodes.Get_Chain(unit)
 
@@ -152,3 +155,22 @@ class Document(object):
     def goto_definition(self, position):
         loc = self.position_to_location(position)
         return references.goto_definition(self._tree, loc)
+
+    def format_range(self, rng):
+        first_line = rng['start']['line'] + 1
+        last_line = rng['end']['line'] + (1 if rng['end']['character'] != 0 else 0)
+        if last_line < first_line:
+            return None
+        if self._tree == nodes.Null_Iir:
+            return None
+        hand = formatters.Allocate_Handle()
+        formatters.Indent_String(self._tree, hand, first_line, last_line)
+        buffer = formatters.Get_C_String(hand)
+        buf_len = formatters.Get_Length(hand)
+        newtext = buffer[:buf_len].decode('utf-8')
+        res = [ {'range': {
+                     'start': { 'line': first_line - 1, 'character': 0},
+                     'end': { 'line': last_line, 'character': 0}},
+                 'newText': newtext}]
+        formatters.Free_Handle(hand)
+        return res

@@ -24,6 +24,7 @@ class VhdlLanguageServer(object):
             'textDocument/definition': self.textDocument_definition,
             'textDocument/documentSymbol': self.textDocument_documentSymbol,
             # 'textDocument/completion': self.completion,
+            'textDocument/rangeFormatting': self.textDocument_rangeFormatting,
             'workspace/xShowAllFiles': self.workspace_xShowAllFiles,
             }
 
@@ -55,10 +56,9 @@ class VhdlLanguageServer(object):
             'documentSymbolProvider': True,
             'codeActionProvider': False,
             'documentFormattingProvider': False,
-            'documentRangeFormattingProvider': False,
+            'documentRangeFormattingProvider': True,
             'renameProvider': False,
         }
-        log.info('Server capabilities: %s', server_capabilities)
         return server_capabilities
 
     def initialize(self, processId, rootPath, capabilities, rootUri=None,
@@ -110,6 +110,14 @@ class VhdlLanguageServer(object):
     def textDocument_documentSymbol(self, textDocument=None):
         doc = self.workspace.get_document(textDocument['uri'])
         return doc.document_symbols()
+
+    def textDocument_rangeFormatting(self, textDocument=None, range=None, options=None):
+        doc_uri = textDocument['uri']
+        doc = self.workspace.get_document(doc_uri)
+        res = doc.format_range(range)
+        if res is not None:
+            self.lint(doc_uri)
+        return res
 
     def m_workspace__did_change_configuration(self, _settings=None):
         for doc_uri in self.workspace.documents:
