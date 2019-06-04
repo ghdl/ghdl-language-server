@@ -154,7 +154,7 @@ class Workspace(object):
         # Gather messages (per file)
         nbr_msgs = errorout_memory.Get_Nbr_Messages()
         diags = {}
-        diag = None
+        diag = {}
         for i in range(nbr_msgs):
             hdr = errorout_memory.Get_Error_Record(i+1)
             msg = errorout_memory.Get_Error_Message(i+1).decode('utf-8')
@@ -182,7 +182,7 @@ class Workspace(object):
                 else:
                     fdiag.append(diag)
             else:
-                assert diag is not None
+                assert diag
                 if True:
                     doc = self.sfe_to_document(hdr.file)
                     diag['relatedInformation'].append(

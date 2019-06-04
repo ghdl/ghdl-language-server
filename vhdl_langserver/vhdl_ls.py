@@ -130,10 +130,3 @@ class VhdlLanguageServer(object):
 
     def workspace_xShowAllFiles(self):
         return self.workspace.x_show_all_files()
-
-def flatten(list_of_lists):
-    return [item for lst in list_of_lists for item in lst]
-
-
-def merge(list_of_dicts):
-    return {k: v for dictionary in list_of_dicts for k, v in dictionary.items()}
