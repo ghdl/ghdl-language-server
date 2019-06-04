@@ -4,7 +4,8 @@ from setuptools import setup
 
 def find_version():
     version_file = open('vhdl_langserver/version.py').read()
-    version_match = re.search(r"^__version__ = ['\"]([^'\"]['\"]", version_file, re.M)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
     if version_match:
         return version_match.group(1)
     else:
@@ -31,7 +32,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'libghdl==0_37_dev'
+        'libghdl==0.37.dev0'
     ],
 
     # To provide executable scripts, use entry points in preference to the
