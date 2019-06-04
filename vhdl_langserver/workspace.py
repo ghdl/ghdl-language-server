@@ -10,6 +10,7 @@ import libghdl.thin.libraries as libraries
 import libghdl.thin.name_table as name_table
 import libghdl.thin.vhdl.nodes as nodes
 import libghdl.thin.vhdl.std_package as std_package
+import libghdl.thin.vhdl.parse
 import libghdl.thin.vhdl.pyutils as pyutils
 
 from . import lsp
@@ -34,6 +35,7 @@ class Workspace(object):
         libghdl.thin.flags.Flag_Elocations.value = True
         #thin.Flags.Verbose.value = True
         # We do analysis even in case of errors.
+        libghdl.thin.vhdl.parse.Flag_Parse_Parenthesis.value = True
         libghdl.thin.flags.Flag_Force_Analysis.value = True
         libghdl.thin.flags.Flag_Elaborate_With_Outdated.value = True
         self.read_project()
