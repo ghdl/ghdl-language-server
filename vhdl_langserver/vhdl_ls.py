@@ -86,6 +86,7 @@ class VhdlLanguageServer(object):
     def textDocument_didChange(self, textDocument=None, contentChanges=None):
         doc_uri = textDocument['uri']
         doc = self.workspace.get_document(doc_uri)
+        assert doc is not None, 'try to modify a non-loaded document'
         for change in contentChanges:
             doc.apply_change(change)
         doc.version = textDocument.get('version')
@@ -108,12 +109,13 @@ class VhdlLanguageServer(object):
         return self.workspace.goto_definition(textDocument['uri'], position)
 
     def textDocument_documentSymbol(self, textDocument=None):
-        doc = self.workspace.get_document(textDocument['uri'])
+        doc = self.workspace.get_or_create_document(textDocument['uri'])
         return doc.document_symbols()
 
     def textDocument_rangeFormatting(self, textDocument=None, range=None, options=None):
         doc_uri = textDocument['uri']
         doc = self.workspace.get_document(doc_uri)
+        assert doc is not None, 'Try to format a non-loaded document'
         res = doc.format_range(range)
         if res is not None:
             self.lint(doc_uri)

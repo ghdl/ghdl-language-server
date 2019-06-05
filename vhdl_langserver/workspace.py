@@ -128,15 +128,21 @@ class Workspace(object):
             if lang == 'vhdl':
                 self.add_vhdl_file(name)
 
-    def get_document(self, doc_uri):
-        """Return a managed document if-present, else create one pointing at disk.
+    def _create_document(self, doc_uri, source=None, version=None):
+        path = lsp.path_from_uri(doc_uri)
+        if source is None:
+            source = open(path).read()
+        sfe = document.Document.load(source, os.path.dirname(path), os.path.basename(path))
+        return document.Document(doc_uri, sfe, version)
 
-        See https://github.com/Microsoft/language-server-protocol/issues/177
-        """
+    def get_or_create_document(self, doc_uri):
         return self._docs.get(doc_uri) or self._create_document(doc_uri)
 
+    def get_document(self, doc_uri):
+        return self._docs.get(doc_uri)
+
     def put_document(self, doc_uri, source, version=None):
-        doc = self._docs.get(doc_uri, None)
+        doc = self.get_document(doc_uri)
         if doc is None:
             doc = self._create_document(doc_uri, source=source, version=version)
             self._docs[doc_uri] = doc
@@ -218,11 +224,6 @@ class Workspace(object):
 
     def show_message(self, message, msg_type=lsp.MessageType.Info):
         self._server.notify(self.M_SHOW_MESSAGE, params={'type': msg_type, 'message': message})
-
-    def _create_document(self, doc_uri, source=None, version=None):
-        path = lsp.path_from_uri(doc_uri)
-        sfe = document.Document.load(source, os.path.dirname(path), os.path.basename(path))
-        return document.Document(doc_uri, sfe, version)
 
     def declaration_to_location(self, decl):
         "Convert declaration :param decl: to an LSP Location"
