@@ -18,7 +18,7 @@
         "documentSymbolProvider": true,
         "codeActionProvider": false,
         "documentFormattingProvider": false,
-        "documentRangeFormattingProvider": false,
+        "documentRangeFormattingProvider": true,
         "renameProvider": false
       }
     }
@@ -74,11 +74,11 @@
           "range": {
             "start": {
               "line": 4,
-              "character": 7
+              "character": 0
             },
             "end": {
-              "line": 4,
-              "character": 9
+              "line": 5,
+              "character": 0
             }
           }
         }
@@ -91,11 +91,11 @@
           "range": {
             "start": {
               "line": 7,
-              "character": 13
+              "character": 0
             },
             "end": {
-              "line": 7,
-              "character": 18
+              "line": 11,
+              "character": 0
             }
           }
         }
@@ -124,11 +124,11 @@
             "range": {
               "start": {
                 "line": 7,
-                "character": 13
+                "character": 0
               },
               "end": {
-                "line": 7,
-                "character": 18
+                "line": 11,
+                "character": 0
               }
             }
           }

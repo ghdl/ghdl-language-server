@@ -18,7 +18,7 @@
         "documentSymbolProvider": true,
         "codeActionProvider": false,
         "documentFormattingProvider": false,
-        "documentRangeFormattingProvider": false,
+        "documentRangeFormattingProvider": true,
         "renameProvider": false
       }
     }
@@ -43,11 +43,11 @@
           "range": {
             "start": {
               "line": 1,
-              "character": 7
+              "character": 0
             },
             "end": {
-              "line": 1,
-              "character": 12
+              "line": 5,
+              "character": 0
             }
           }
         }
@@ -76,11 +76,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -110,11 +110,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -144,11 +144,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -178,11 +178,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -212,11 +212,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -230,11 +230,11 @@
           "range": {
             "start": {
               "line": 7,
-              "character": 13
+              "character": 0
             },
             "end": {
-              "line": 7,
-              "character": 16
+              "line": 14,
+              "character": 0
             }
           }
         }
@@ -261,11 +261,11 @@
           "range": {
             "start": {
               "line": 2,
-              "character": 7
+              "character": 0
             },
             "end": {
-              "line": 2,
-              "character": 15
+              "line": 3,
+              "character": 0
             }
           }
         }
@@ -278,11 +278,11 @@
           "range": {
             "start": {
               "line": 5,
-              "character": 13
+              "character": 0
             },
             "end": {
-              "line": 5,
-              "character": 18
+              "line": 57,
+              "character": 0
             }
           }
         }
@@ -295,11 +295,11 @@
           "range": {
             "start": {
               "line": 7,
-              "character": 12
+              "character": 2
             },
             "end": {
-              "line": 7,
-              "character": 17
+              "line": 9,
+              "character": 2
             }
           }
         },
@@ -311,11 +311,11 @@
             "range": {
               "start": {
                 "line": 5,
-                "character": 13
+                "character": 0
               },
               "end": {
-                "line": 5,
-                "character": 18
+                "line": 57,
+                "character": 0
               }
             }
           }
@@ -345,11 +345,11 @@
             "range": {
               "start": {
                 "line": 7,
-                "character": 12
+                "character": 2
               },
               "end": {
-                "line": 7,
-                "character": 17
+                "line": 9,
+                "character": 2
               }
             }
           },
@@ -361,11 +361,11 @@
               "range": {
                 "start": {
                   "line": 5,
-                  "character": 13
+                  "character": 0
                 },
                 "end": {
-                  "line": 5,
-                  "character": 18
+                  "line": 57,
+                  "character": 0
                 }
               }
             }
@@ -396,11 +396,11 @@
             "range": {
               "start": {
                 "line": 7,
-                "character": 12
+                "character": 2
               },
               "end": {
-                "line": 7,
-                "character": 17
+                "line": 9,
+                "character": 2
               }
             }
           },
@@ -412,11 +412,11 @@
               "range": {
                 "start": {
                   "line": 5,
-                  "character": 13
+                  "character": 0
                 },
                 "end": {
-                  "line": 5,
-                  "character": 18
+                  "line": 57,
+                  "character": 0
                 }
               }
             }
@@ -447,11 +447,11 @@
             "range": {
               "start": {
                 "line": 7,
-                "character": 12
+                "character": 2
               },
               "end": {
-                "line": 7,
-                "character": 17
+                "line": 9,
+                "character": 2
               }
             }
           },
@@ -463,11 +463,11 @@
               "range": {
                 "start": {
                   "line": 5,
-                  "character": 13
+                  "character": 0
                 },
                 "end": {
-                  "line": 5,
-                  "character": 18
+                  "line": 57,
+                  "character": 0
                 }
               }
             }
@@ -498,11 +498,11 @@
             "range": {
               "start": {
                 "line": 7,
-                "character": 12
+                "character": 2
               },
               "end": {
-                "line": 7,
-                "character": 17
+                "line": 9,
+                "character": 2
               }
             }
           },
@@ -514,11 +514,11 @@
               "range": {
                 "start": {
                   "line": 5,
-                  "character": 13
+                  "character": 0
                 },
                 "end": {
-                  "line": 5,
-                  "character": 18
+                  "line": 57,
+                  "character": 0
                 }
               }
             }
@@ -549,11 +549,11 @@
             "range": {
               "start": {
                 "line": 7,
-                "character": 12
+                "character": 2
               },
               "end": {
-                "line": 7,
-                "character": 17
+                "line": 9,
+                "character": 2
               }
             }
           },
@@ -565,11 +565,11 @@
               "range": {
                 "start": {
                   "line": 5,
-                  "character": 13
+                  "character": 0
                 },
                 "end": {
-                  "line": 5,
-                  "character": 18
+                  "line": 57,
+                  "character": 0
                 }
               }
             }
@@ -600,11 +600,11 @@
             "range": {
               "start": {
                 "line": 5,
-                "character": 13
+                "character": 0
               },
               "end": {
-                "line": 5,
-                "character": 18
+                "line": 57,
+                "character": 0
               }
             }
           }
@@ -634,11 +634,11 @@
             "range": {
               "start": {
                 "line": 5,
-                "character": 13
+                "character": 0
               },
               "end": {
-                "line": 5,
-                "character": 18
+                "line": 57,
+                "character": 0
               }
             }
           }
@@ -668,11 +668,11 @@
             "range": {
               "start": {
                 "line": 5,
-                "character": 13
+                "character": 0
               },
               "end": {
-                "line": 5,
-                "character": 18
+                "line": 57,
+                "character": 0
               }
             }
           }
@@ -702,11 +702,11 @@
             "range": {
               "start": {
                 "line": 5,
-                "character": 13
+                "character": 0
               },
               "end": {
-                "line": 5,
-                "character": 18
+                "line": 57,
+                "character": 0
               }
             }
           }
@@ -736,11 +736,11 @@
             "range": {
               "start": {
                 "line": 5,
-                "character": 13
+                "character": 0
               },
               "end": {
-                "line": 5,
-                "character": 18
+                "line": 57,
+                "character": 0
               }
             }
           }
@@ -770,11 +770,11 @@
             "range": {
               "start": {
                 "line": 5,
-                "character": 13
+                "character": 0
               },
               "end": {
-                "line": 5,
-                "character": 18
+                "line": 57,
+                "character": 0
               }
             }
           }
@@ -821,11 +821,11 @@
           "range": {
             "start": {
               "line": 1,
-              "character": 7
+              "character": 0
             },
             "end": {
-              "line": 1,
-              "character": 12
+              "line": 5,
+              "character": 0
             }
           }
         }
@@ -854,11 +854,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -888,11 +888,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -922,11 +922,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -956,11 +956,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -990,11 +990,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1008,11 +1008,11 @@
           "range": {
             "start": {
               "line": 7,
-              "character": 13
+              "character": 0
             },
             "end": {
-              "line": 7,
-              "character": 16
+              "line": 15,
+              "character": 0
             }
           }
         }
@@ -1115,11 +1115,11 @@
           "range": {
             "start": {
               "line": 1,
-              "character": 7
+              "character": 0
             },
             "end": {
-              "line": 1,
-              "character": 12
+              "line": 5,
+              "character": 0
             }
           }
         }
@@ -1148,11 +1148,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1182,11 +1182,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1216,11 +1216,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1250,11 +1250,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1284,11 +1284,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1302,11 +1302,11 @@
           "range": {
             "start": {
               "line": 7,
-              "character": 13
+              "character": 0
             },
             "end": {
-              "line": 7,
-              "character": 16
+              "line": 15,
+              "character": 0
             }
           }
         }
@@ -1493,11 +1493,11 @@
           "range": {
             "start": {
               "line": 1,
-              "character": 7
+              "character": 0
             },
             "end": {
-              "line": 1,
-              "character": 12
+              "line": 5,
+              "character": 0
             }
           }
         }
@@ -1526,11 +1526,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1560,11 +1560,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1594,11 +1594,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1628,11 +1628,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1662,11 +1662,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1680,11 +1680,11 @@
           "range": {
             "start": {
               "line": 7,
-              "character": 13
+              "character": 0
             },
             "end": {
-              "line": 7,
-              "character": 16
+              "line": 15,
+              "character": 0
             }
           }
         }
@@ -1727,11 +1727,11 @@
           "range": {
             "start": {
               "line": 1,
-              "character": 7
+              "character": 0
             },
             "end": {
-              "line": 1,
-              "character": 12
+              "line": 5,
+              "character": 0
             }
           }
         }
@@ -1760,11 +1760,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1794,11 +1794,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1828,11 +1828,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1862,11 +1862,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1896,11 +1896,11 @@
             "range": {
               "start": {
                 "line": 1,
-                "character": 7
+                "character": 0
               },
               "end": {
-                "line": 1,
-                "character": 12
+                "line": 5,
+                "character": 0
               }
             }
           }
@@ -1914,11 +1914,11 @@
           "range": {
             "start": {
               "line": 7,
-              "character": 13
+              "character": 0
             },
             "end": {
-              "line": 7,
-              "character": 16
+              "line": 15,
+              "character": 0
             }
           }
         }
