@@ -36,8 +36,12 @@ class Workspace(object):
         #thin.Flags.Verbose.value = True
         # We do analysis even in case of errors.
         libghdl.thin.vhdl.parse.Flag_Parse_Parenthesis.value = True
+        # Force analysis to get more feedback + navigation even in case
+        # of errors.
         libghdl.thin.flags.Flag_Force_Analysis.value = True
+        # Do not consider analysis order issues.
         libghdl.thin.flags.Flag_Elaborate_With_Outdated.value = True
+        libghdl.thin.errorout.Enable_Warning(errorout.Msgid.Warnid_Unused, True)
         self.read_project()
         self.set_options_from_project()
         libghdl.analyze_init()
