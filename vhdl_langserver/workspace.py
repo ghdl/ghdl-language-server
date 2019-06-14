@@ -115,8 +115,14 @@ class Workspace(object):
     def set_options_from_project(self):
         if self._prj is None:
             return
+        if not isinstance(self._prj, dict):
+            log.error("project file is not a dictionnary")
+            return
         opts = self._prj.get('options', None)
         if opts is None:
+            return
+        if not isinstance(opts, dict):
+            log.error("'options' is not a dictionnary")
             return
         ghdl_opts = opts.get('ghdl_analysis', None)
         if ghdl_opts is None:
