@@ -8,7 +8,7 @@
 		"type": "git",
 		"url": "https://github.com/ghdl/ghdl-language-server"
 	},
-	"publisher": "Tristan Gingold",
+	"publisher": "tgingold",
 	"categories": [
 		"Programming Languages",
 		"Snippets"
@@ -102,10 +102,10 @@
 		"@types/node": "^8.10.25",
 		"@types/vscode": "^1.34.0",
 		"tslint": "^5.16.0",
-		"typescript": "^3.5.1"
+		"typescript": "^3.5.1",
+		"vscode": "^1.1.34"
 	},
 	"dependencies": {
-		"vscode": "^1.1.34",
 		"vscode-languageclient": "^4.1.4"
 	}
 }
