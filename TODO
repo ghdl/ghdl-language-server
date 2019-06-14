@@ -1,0 +1,21 @@
+Various ideas of improvements (in no specific order):
+
+* reformat: realign (per scope or per block) associations/declarations
+* parse after a timeout instead of after each edit (but what about testing?)
+* go to declaration/definition -> for components and subprograms
+* action: add instance (and automatically create a template)
+* action: reorder associations (using the declaration order)
+* action: convert from assoc by position to assoc by name
+* find references
+* manage memory: un-analyze, free old nodes...
+* verilog ?
+* Import projects from ISE, Vivado, quartus, HDLmake, ...
+* integration with other IDE (emacs, atom, ...)
+* Test on windows, MacOS
+* Watch/edit project file ?
+* Sanitize tests
+* add file into project
+* watch project file and reload.
+* FIX: crash when a file in a project doesn't exist
+* add a signal or jump to declarations
+* style checker
