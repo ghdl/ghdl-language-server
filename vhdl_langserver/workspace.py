@@ -71,6 +71,7 @@ class Workspace(object):
     def sfe_to_document(self, sfe):
         """Get the document correspond to :param sfe: source file.
         Can create the document if needed."""
+        assert sfe != 0
         doc = self._fe_map.get(sfe, None)
         if doc is None:
             # Could be a document from outside...
@@ -170,6 +171,9 @@ class Workspace(object):
         for i in range(nbr_msgs):
             hdr = errorout_memory.Get_Error_Record(i+1)
             msg = errorout_memory.Get_Error_Message(i+1).decode('utf-8')
+            if hdr.file == 0:
+                # Possible for error limit reached.
+                continue
             err_range = {
                 'start': {'line': hdr.line - 1, 'character': hdr.offset},
                 'end': {'line': hdr.line - 1,
