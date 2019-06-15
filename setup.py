@@ -32,6 +32,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
+        'attrs',
         'libghdl==0.37.dev0'
     ],
 
