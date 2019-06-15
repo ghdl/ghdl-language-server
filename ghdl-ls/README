@@ -3,7 +3,6 @@ ghdl-lang-server is a language server for VHDL based on ghdl.
 It implements the Language Server Protocol.
 The server is implemented in Python (3.x) but relies on libghdl for parsing.
 
-
 To install:
 1) First install ghdl (add --enable-python during configuration).
    This is needed so that the libraries are available
@@ -15,10 +14,6 @@ IMPORTANT: always use the latest version of ghdl (the python binding may
    $ pip install .
    To install for development: pip install -e .
    Add --user to install in your home directory.
-4) You can install the vscode extension:
-   $ cd vscode-client
-   $ vsce package
-   $ code --install-extension vhdl-lsp-*.vsix
 
 The executable is named 'ghdl-ls'.  It uses stdin/stdout to communicate with
 its client.
