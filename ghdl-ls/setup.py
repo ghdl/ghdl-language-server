@@ -25,7 +25,7 @@ setup(
     author='Tristan Gingold',
     packages=['vhdl_langserver'],
     package_dir={
-        'vhdl_langserver': 'src'
+        'vhdl_langserver': 'vhdl_langserver'
     },
     # List run-time dependencies here. For an analysis of "install_requires"
     # vs pip's requirements files see:
