@@ -7,7 +7,7 @@ from setuptools import setup
 def find_version():
     version_match = re.search(
         r"^__version__ = ['\"]([^'\"]*)['\"]",
-        open('src/version.py').read(),
+        open('vhdl_langserver/version.py').read(),
         re.M
     )
     if version_match:
