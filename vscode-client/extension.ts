@@ -25,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
 	let serverOptions: ServerOptions = {
-		run: { 
+		run: {
 			command: serverPath,
 			args: ['-v']
 		},
@@ -45,12 +45,16 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	};
 
+	//  Force debugging
+	let debug: boolean = process.env.DEBUG_GHDL_LS != undefined
+
 	// Create the language client and start the client.
 	client = new LanguageClient(
 		'vhdlLanguageServer',
 		'VHDL Language Server',
 		serverOptions,
-		clientOptions
+		clientOptions,
+		debug
 	);
 
 	// Start the client. This will also launch the server

@@ -36,3 +36,12 @@ Subdir `vscode-client` contains the sources of a VSC Extension; a LSP client tha
 
 - Though the command-line: `code --install-extension vhdl-lsp-*.vsix`.
 - Graphically though [Install from VSIX...](https://code.visualstudio.com/docs/editor/extension-gallery#_install-from-a-vsix).
+
+## Issues
+
+In case of crash of ghdl-ls, you should restart `code` with debugging enabled:
+
+```bash
+ $ DEBUG_GHDL_LS=1 code .
+
+This makes `ghdl-ls` writing logs (`vhdl-ls.log`, `vhdl-ls.trace.in` and `vhdl-ls.trace.out`) which should be attached to the issue.
