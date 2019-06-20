@@ -15,6 +15,14 @@ from . import symbols, references
 log = logging.getLogger(__name__)
 
 class Document(object):
+    # The encoding used for the files.
+    # Unfortunately this is not fully reliable.  The client can read the
+    # file using its own view of the encoding.  It then pass the document
+    # to the server using unicode(utf-8).  Then the document is converted
+    # back to bytes using this encoding.  And we hope the result would be
+    # the same as the file.  Because VHDL uses the iso 8859-1 character
+    # set, we use the same encoding.  The client should also use 8859-1.
+    encoding = 'iso-8859-1'
 
     def __init__(self, uri, sfe=None, version=None):
         self.uri = uri
@@ -25,8 +33,8 @@ class Document(object):
     @staticmethod
     def load(source, dirname, filename):
         # Write text to file buffer.
-        src_utf8 = source.encode('utf-8')
-        src_len = len(src_utf8)
+        src_bytes = source.encode(Document.encoding)
+        src_len = len(src_bytes)
         buf_len = src_len + 4096
         fileid = name_table.Get_Identifier(filename.encode('utf-8'))
         if os.path.isabs(filename):
@@ -34,14 +42,14 @@ class Document(object):
         else:
             dirid = name_table.Get_Identifier(dirname.encode('utf-8'))
         sfe = files_map.Reserve_Source_File(dirid, fileid, buf_len)
-        files_map_editor.Fill_Text(sfe, ctypes.c_char_p(src_utf8), src_len)
+        files_map_editor.Fill_Text(sfe, ctypes.c_char_p(src_bytes), src_len)
         return sfe
 
     def reload(self, source):
         """Reload the source of a document.  """
-        src_utf8 = source.encode('utf-8')
+        src_bytes = source.encode(Document.encoding)
         files_map_editor.Fill_Text(self._fe,
-            ctypes.c_char_p(src_utf8), len(src_utf8))
+            ctypes.c_char_p(src_bytes), len(src_bytes))
 
     def __str__(self):
         return str(self.uri)
@@ -51,12 +59,12 @@ class Document(object):
         text = change['text']
         change_range = change.get('range')
 
-        text_utf8 = text.encode('utf-8')
+        text_bytes = text.encode(Document.encoding)
 
         if not change_range:
             # The whole file has changed
             raise AssertionError
-            #if len(text_utf8) < thin.Files_Map.Get_Buffer_Length(self._fe):
+            #if len(text_bytes) < thin.Files_Map.Get_Buffer_Length(self._fe):
             #    xxxx_replace
             #else:
             #    xxxx_free
@@ -72,15 +80,15 @@ class Document(object):
             self._fe,
             start_line + 1, start_col,
             end_line + 1, end_col,
-            ctypes.c_char_p(text_utf8), len(text_utf8))
+            ctypes.c_char_p(text_bytes), len(text_bytes))
 
     def check_document(self, text):
         log.debug("Checking document: %s", self.uri)
 
-        text_utf8 = text.encode('utf-8')
+        text_bytes = text.encode(Document.encoding)
 
         files_map_editor.Check_Buffer_Content(
-            self._fe, ctypes.c_char_p(text_utf8), len(text_utf8))
+            self._fe, ctypes.c_char_p(text_bytes), len(text_bytes))
 
     @staticmethod
     def parse_document(sfe):
@@ -167,7 +175,7 @@ class Document(object):
         formatters.Indent_String(self._tree, hand, first_line, last_line)
         buffer = formatters.Get_C_String(hand)
         buf_len = formatters.Get_Length(hand)
-        newtext = buffer[:buf_len].decode('utf-8')
+        newtext = buffer[:buf_len].decode(Document.encoding)
         res = [ {'range': {
                      'start': { 'line': first_line - 1, 'character': 0},
                      'end': { 'line': last_line, 'character': 0}},
