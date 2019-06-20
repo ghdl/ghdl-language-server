@@ -133,8 +133,17 @@ class Workspace(object):
 
     def read_files_from_project(self):
         files = self._prj.get('files', [])
+        if not isinstance(files, list):
+            log.error("'files' is not a list")
+            return
         for f in files:
+            if not isinstance(f, dict):
+                log.error("an element of 'files' is not a dict")
+                return
             name = f.get('file')
+            if not isinstance(name, str):
+                log.error("a 'file' is not a string")
+                return
             lang = f.get('language', 'vhdl')
             if lang == 'vhdl':
                 self.add_vhdl_file(name)
