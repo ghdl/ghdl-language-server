@@ -66,6 +66,11 @@
 				}
 			]
 		},
+                "configurationDefaults": {
+                        "[vhdl]": {
+                                "files.encoding": "iso88591"
+                        }
+                },
 		"configuration": {
 			"type": "object",
 			"title": "Vhdl configuration",
