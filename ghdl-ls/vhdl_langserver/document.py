@@ -33,7 +33,7 @@ class Document(object):
     @staticmethod
     def load(source, dirname, filename):
         # Write text to file buffer.
-        src_bytes = source.encode(Document.encoding)
+        src_bytes = source.encode(Document.encoding, "replace")
         src_len = len(src_bytes)
         buf_len = src_len + 4096
         fileid = name_table.Get_Identifier(filename.encode('utf-8'))
@@ -47,7 +47,7 @@ class Document(object):
 
     def reload(self, source):
         """Reload the source of a document.  """
-        src_bytes = source.encode(Document.encoding)
+        src_bytes = source.encode(Document.encoding, "replace")
         files_map_editor.Fill_Text(self._fe,
             ctypes.c_char_p(src_bytes), len(src_bytes))
 
@@ -59,7 +59,7 @@ class Document(object):
         text = change['text']
         change_range = change.get('range')
 
-        text_bytes = text.encode(Document.encoding)
+        text_bytes = text.encode(Document.encoding, "replace")
 
         if not change_range:
             # The whole file has changed
@@ -85,7 +85,7 @@ class Document(object):
     def check_document(self, text):
         log.debug("Checking document: %s", self.uri)
 
-        text_bytes = text.encode(Document.encoding)
+        text_bytes = text.encode(Document.encoding, "replace")
 
         files_map_editor.Check_Buffer_Content(
             self._fe, ctypes.c_char_p(text_bytes), len(text_bytes))
