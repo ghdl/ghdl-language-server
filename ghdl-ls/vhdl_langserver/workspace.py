@@ -89,6 +89,11 @@ class Workspace(object):
         else:
             absname = os.path.join(self._root_path, name)
         # Create a document for this file.
+        if not os.path.exists(absname):
+            self._server.show_message(
+                lsp.MessageType.Error,
+                "cannot load {}: file does not exists".format(name))
+            return
         sfe = document.Document.load(open(absname).read(), self._root_path, name)
         doc = self.create_document_from_sfe(sfe, absname)
         doc._tree = document.Document.parse_document(sfe)
@@ -309,5 +314,27 @@ class Workspace(object):
             lib = nodes.Get_Chain(lib)
         return res
 
+    def x_get_entity_interface(self, library, name):
+        def create_interfaces(inters):
+            res = []
+            while inters != nodes.Null_Iir:
+                res.append({'name': name_table.Get_Name_Ptr(nodes.Get_Identifier(inters)).decode('latin-1')})
+                inters = nodes.Get_Chain(inters)
+            return res
+        # Find library
+        lib_id = name_table.Get_Identifier(library.encode('utf-8'))
+        lib = libraries.Get_Library_No_Create(lib_id)
+        if lib == name_table.Null_Identifier:
+            return None
+        # Find entity
+        ent_id = name_table.Get_Identifier(name.encode('utf-8'))
+        unit = libraries.Find_Primary_Unit(lib, ent_id)
+        if unit == nodes.Null_Iir:
+            return None
+        ent = nodes.Get_Library_Unit(unit)
+        return {'library': library,
+                'entity': name,
+                'generics': create_interfaces(nodes.Get_Generic_Chain(ent)),
+                'ports': create_interfaces(nodes.Get_Port_Chain(ent))}
 
 

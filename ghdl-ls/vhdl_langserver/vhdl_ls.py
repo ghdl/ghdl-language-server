@@ -27,6 +27,7 @@ class VhdlLanguageServer(object):
             'textDocument/rangeFormatting': self.textDocument_rangeFormatting,
             'workspace/xShowAllFiles': self.workspace_xShowAllFiles,
             'workspace/xGetAllEntities': self.workspace_xGetAllEntities,
+            'workspace/xGetEntityInterface': self.workspace_xGetEntityInterface,
             }
 
     def set_lsp(self, server):
@@ -136,3 +137,6 @@ class VhdlLanguageServer(object):
 
     def workspace_xGetAllEntities(self):
         return self.workspace.x_get_all_entities()
+
+    def workspace_xGetEntityInterface(self, library, name):
+        return self.workspace.x_get_entity_interface(library, name)
