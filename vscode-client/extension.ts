@@ -33,9 +33,9 @@ class EntityItem implements vscode.QuickPickItem {
 	}
 }
 
-async function get_entities() : Promise<EntityItem[]>{
-	return client.sendRequest(ExtraRequest.GetAllEntities)
-	.then((ent) => {
+async function instantiate_entity() {
+	await client.sendRequest(ExtraRequest.GetAllEntities)
+	.then(ent => {
 		if (!ent) {
 			return;
 		}
@@ -43,23 +43,16 @@ async function get_entities() : Promise<EntityItem[]>{
 		for (let e of ent) {
 			res.push(new EntityItem(e.name, e.library))
 		}
-		return res //new Promise(resolve => resolve(res))
+		return vscode.window.showQuickPick(res)
 	})
-
-	//return new Promise<EntityItem[]>(resolve => {setTimeout(() => {resolve([new EntityItem('a', 'work'),
-	//new EntityItem('b', 'work')])}, 500);});
-}
-
-async function instantiate_entity() {
-	await vscode.window.showQuickPick(get_entities())
-	.then((res) => {
+	.then(res => {
 		  let textEditor = vscode.window.activeTextEditor
 		  if (textEditor) {
 			  return  textEditor.insertSnippet(
 				  new vscode.SnippetString('${0:my_inst}: ' + `entity ${res.library}.${res.label}`))
 			  //textEditor.edit((edit) => { edit.insert(textEditor.selection.active, res.description) })
 		  }
-		})
+	})
 }
 
 export function activate(context: vscode.ExtensionContext) {
