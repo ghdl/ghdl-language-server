@@ -15,6 +15,7 @@ Various ideas of improvements (in no specific order):
 * Watch/edit project file ?
 * Sanitize tests
 * add file into project
+* project: add library.
 * watch project file and reload.
 * FIX: crash when a file in a project doesn't exist
 * add a signal or jump to declarations
