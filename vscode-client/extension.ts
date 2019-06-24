@@ -12,12 +12,55 @@ import {
 } from 'vscode-languageclient';
 import * as vscodelc from 'vscode-languageclient';
 
-namespace ShowAllFilesRequest {
-	export const type =
-		new vscodelc.RequestType0<any, void, void>('workspace/xShowAllFiles');
+namespace ExtraRequest {
+	export const ShowAllFiles =
+		new vscodelc.RequestType0<any, void, void>('workspace/xShowAllFiles')
+	export const GetAllEntities =
+		new vscodelc.RequestType0<any, void, void>('workspace/xGetAllEntities')
 }
 
 let client: LanguageClient;
+
+class EntityItem implements vscode.QuickPickItem {
+	label: string
+	description: string
+	library: string
+
+	constructor(name : string, library: string) {
+		this.label = name
+		this.description = library + '.' + name
+		this.library = library
+	}
+}
+
+async function get_entities() : Promise<EntityItem[]>{
+	return client.sendRequest(ExtraRequest.GetAllEntities)
+	.then((ent) => {
+		if (!ent) {
+			return;
+		}
+		let res : EntityItem[] = []
+		for (let e of ent) {
+			res.push(new EntityItem(e.name, e.library))
+		}
+		return res //new Promise(resolve => resolve(res))
+	})
+
+	//return new Promise<EntityItem[]>(resolve => {setTimeout(() => {resolve([new EntityItem('a', 'work'),
+	//new EntityItem('b', 'work')])}, 500);});
+}
+
+async function instantiate_entity() {
+	await vscode.window.showQuickPick(get_entities())
+	.then((res) => {
+		  let textEditor = vscode.window.activeTextEditor
+		  if (textEditor) {
+			  return  textEditor.insertSnippet(
+				  new vscode.SnippetString('${0:my_inst}: ' + `entity ${res.library}.${res.label}`))
+			  //textEditor.edit((edit) => { edit.insert(textEditor.selection.active, res.description) })
+		  }
+		})
+}
 
 export function activate(context: vscode.ExtensionContext) {
 	let serverPath = "ghdl-ls";
@@ -64,8 +107,7 @@ export function activate(context: vscode.ExtensionContext) {
 		'ghdl-ls.showallfiles', async () => {
 			let oc = vscode.window.createOutputChannel('all-files');
 			oc.clear();
-			const files = await client.sendRequest(
-				ShowAllFilesRequest.type);
+			const files = await client.sendRequest(ExtraRequest.ShowAllFiles);
 			if (!files) {
 				return;
 			}
@@ -79,6 +121,8 @@ export function activate(context: vscode.ExtensionContext) {
 			oc.show();
 		}
 	))
+	context.subscriptions.push(vscode.commands.registerCommand(
+		'ghdl-ls.instantiate-entity', instantiate_entity))
 }
 
 export function deactivate(): Thenable<void> | undefined {

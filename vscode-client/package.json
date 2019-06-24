@@ -54,6 +54,10 @@
 				"title": "Show all source files"
 			},
 			{
+				"command": "ghdl-ls.instantiate-entity",
+				"title": "Instantiate an entity"
+			},
+			{
 				"command": "ghdl-ls.shownode",
 				"title": "Show node info"
 			}
