@@ -288,3 +288,26 @@ class Workspace(object):
                         'name': pyutils.name_image(files_map.Get_File_Name(fe)),
                         'dir': pyutils.name_image(files_map.Get_Directory_Name(fe))})
         return res
+
+    def x_get_all_entities(self):
+        res = []
+        lib = libraries.Get_Libraries_Chain()
+        while lib != nodes.Null_Iir:
+            files = nodes.Get_Design_File_Chain(lib)
+            ents = []
+            while files != nodes.Null_Iir:
+                units = nodes.Get_First_Design_Unit(files)
+                while units != nodes.Null_Iir:
+                    unitlib = nodes.Get_Library_Unit(units)
+                    if nodes.Get_Kind(unitlib) == nodes.Iir_Kind.Entity_Declaration:
+                        ents.append(unitlib)
+                    units = nodes.Get_Chain(units)
+                files = nodes.Get_Chain(files)
+            ents = [pyutils.name_image(nodes.Get_Identifier(e)) for e in ents]
+            lib_name = pyutils.name_image(nodes.Get_Identifier(lib))
+            res.extend([{'name': n, 'library': lib_name} for n in ents])
+            lib = nodes.Get_Chain(lib)
+        return res
+
+
+
