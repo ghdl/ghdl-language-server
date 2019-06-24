@@ -16,7 +16,9 @@ namespace ExtraRequest {
 	export const ShowAllFiles =
 		new vscodelc.RequestType0<any, void, void>('workspace/xShowAllFiles')
 	export const GetAllEntities =
-		new vscodelc.RequestType0<any, void, void>('workspace/xGetAllEntities')
+		new vscodelc.RequestType0<{name: string, library: string}[], void, void>('workspace/xGetAllEntities')
+	export const GetEntityInterface =
+		new vscodelc.RequestType<{name: string, library: string}, any, void, void>('workspace/xGetEntityInterface')
 }
 
 let client: LanguageClient;
@@ -39,19 +41,36 @@ async function instantiate_entity() {
 		if (!ent) {
 			return;
 		}
-		let res : EntityItem[] = []
-		for (let e of ent) {
-			res.push(new EntityItem(e.name, e.library))
-		}
+		let res = ent.map(e => new EntityItem(e.name, e.library))
 		return vscode.window.showQuickPick(res)
 	})
 	.then(res => {
-		  let textEditor = vscode.window.activeTextEditor
-		  if (textEditor) {
-			  return  textEditor.insertSnippet(
-				  new vscode.SnippetString('${0:my_inst}: ' + `entity ${res.library}.${res.label}`))
-			  //textEditor.edit((edit) => { edit.insert(textEditor.selection.active, res.description) })
-		  }
+		return client.sendRequest(ExtraRequest.GetEntityInterface, {name: res.label, library: res.library})
+	})
+	.then(res => {
+		let textEditor = vscode.window.activeTextEditor
+		if (!textEditor)
+			return
+		let snippet = '${0:my_inst}: ' + `entity ${res.library}.${res.entity}`
+		function gen_interfaces(name: string, inters): string {
+			if (!inters)
+				return ''
+			let isfirst = true
+		 	let r = `\n  ${name} map (`
+		 	for (let g of inters) {
+				if (isfirst)
+					isfirst = false
+				else
+					r += ','
+		  		r += `\n    ${g.name} => ${g.name}`
+			}
+			return r + '\n  )'
+		}
+		snippet += gen_interfaces('generic', res.generics)
+		snippet += gen_interfaces('port', res.ports)
+		snippet += ';'
+		return textEditor.insertSnippet(new vscode.SnippetString(snippet))
+		 //textEditor.edit((edit) => { edit.insert(textEditor.selection.active, res.description) })
 	})
 }
 
