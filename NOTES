@@ -1,3 +1,7 @@
+Common options:
+
+ "options": { "ghdl_analysis": [ "--ieee=synopsys" ] },
+  
 Creating a project from HDLMake:
 
 hdl-prj.json: Makefile
