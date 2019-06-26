@@ -19,11 +19,6 @@ from . import document, symbols
 log = logging.getLogger(__name__)
 
 class Workspace(object):
-
-    M_PUBLISH_DIAGNOSTICS = 'textDocument/publishDiagnostics'
-    M_APPLY_EDIT = 'workspace/applyEdit'
-    M_SHOW_MESSAGE = 'window/showMessage'
-
     def __init__(self, root_uri, server):
         self._root_uri = root_uri
         self._server = server
@@ -245,13 +240,15 @@ class Workspace(object):
         pass
 
     def apply_edit(self, edit):
-        return self._server.request(self.M_APPLY_EDIT, {'edit': edit})
+        return self._server.request('workspace/applyEdit', {'edit': edit})
 
     def publish_diagnostics(self, doc_uri, diagnostics):
-        self._server.notify(self.M_PUBLISH_DIAGNOSTICS, params={'uri': doc_uri, 'diagnostics': diagnostics})
+        self._server.notify('textDocument/publishDiagnostics',
+                            params={'uri': doc_uri, 'diagnostics': diagnostics})
 
     def show_message(self, message, msg_type=lsp.MessageType.Info):
-        self._server.notify(self.M_SHOW_MESSAGE, params={'type': msg_type, 'message': message})
+        self._server.notify('window/showMessage',
+                            params={'type': msg_type, 'message': message})
 
     def declaration_to_location(self, decl):
         "Convert declaration :param decl: to an LSP Location"
