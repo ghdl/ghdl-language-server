@@ -129,7 +129,9 @@ class Workspace(object):
             return
         log.info("Using options: %s", ghdl_opts)
         for opt in ghdl_opts:
-            libghdl.set_option(opt.encode('utf-8'))
+            if not libghdl.set_option(opt.encode('utf-8')):
+                self._server.show_message(lsp.MessageType.Error,
+                    "error with option: {}".format(opt))
 
     def read_files_from_project(self):
         files = self._prj.get('files', [])
