@@ -18,6 +18,12 @@ from . import document, symbols
 
 log = logging.getLogger(__name__)
 
+class ProjectError(Exception):
+    "Exception raised in case of unrecoverable error in the project file."
+    def __init__(self, msg):
+        super().__init__()
+        self.msg = msg
+
 class Workspace(object):
     def __init__(self, root_uri, server):
         self._root_uri = root_uri
@@ -113,42 +119,46 @@ class Workspace(object):
             )
 
     def set_options_from_project(self):
-        if self._prj is None:
-            return
-        if not isinstance(self._prj, dict):
-            log.error("project file is not a dictionnary")
-            return
-        opts = self._prj.get('options', None)
-        if opts is None:
-            return
-        if not isinstance(opts, dict):
-            log.error("'options' is not a dictionnary")
-            return
-        ghdl_opts = opts.get('ghdl_analysis', None)
-        if ghdl_opts is None:
-            return
-        log.info("Using options: %s", ghdl_opts)
-        for opt in ghdl_opts:
-            if not libghdl.set_option(opt.encode('utf-8')):
-                self._server.show_message(lsp.MessageType.Error,
-                    "error with option: {}".format(opt))
+        try:
+            if self._prj is None:
+                return
+            if not isinstance(self._prj, dict):
+                raise ProjectError("project file is not a dictionnary")
+            opts = self._prj.get('options', None)
+            if opts is None:
+                return
+            if not isinstance(opts, dict):
+                raise ProjectError("'options' is not a dictionnary")
+            ghdl_opts = opts.get('ghdl_analysis', None)
+            if ghdl_opts is None:
+                return
+            log.info("Using options: %s", ghdl_opts)
+            for opt in ghdl_opts:
+                if not libghdl.set_option(opt.encode('utf-8')):
+                    self._server.show_message(lsp.MessageType.Error,
+                        "error with option: {}".format(opt))
+        except ProjectError as e:
+            self._server.show_message(lsp.MessageType.Error,
+                "error in project file: {}".format(e.msg))
+
 
     def read_files_from_project(self):
-        files = self._prj.get('files', [])
-        if not isinstance(files, list):
-            log.error("'files' is not a list")
-            return
-        for f in files:
-            if not isinstance(f, dict):
-                log.error("an element of 'files' is not a dict")
-                return
-            name = f.get('file')
-            if not isinstance(name, str):
-                log.error("a 'file' is not a string")
-                return
-            lang = f.get('language', 'vhdl')
-            if lang == 'vhdl':
-                self.add_vhdl_file(name)
+        try:
+            files = self._prj.get('files', [])
+            if not isinstance(files, list):
+                raise ProjectError("'files' is not a list")
+            for f in files:
+                if not isinstance(f, dict):
+                    raise ProjectError("an element of 'files' is not a dict")
+                name = f.get('file')
+                if not isinstance(name, str):
+                    raise ProjectError("a 'file' is not a string")
+                lang = f.get('language', 'vhdl')
+                if lang == 'vhdl':
+                    self.add_vhdl_file(name)
+        except ProjectError as e:
+            self._server.show_message(lsp.MessageType.Error,
+                "error in project file: {}".format(e.msg))
 
     def _create_document(self, doc_uri, source=None, version=None):
         path = lsp.path_from_uri(doc_uri)
