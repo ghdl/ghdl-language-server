@@ -75,6 +75,12 @@ def get_symbols(fe, n):
     k = nodes.Get_Kind(n)
     if k == nodes.Iir_Kind.Design_Unit:
         return get_symbols(fe, nodes.Get_Library_Unit(n))
+    if k in (nodes.Iir_Kind.Signal_Declaration,
+             nodes.Iir_Kind.Variable_Declaration,
+             nodes.Iir_Kind.Interface_Signal_Declaration,
+             nodes.Iir_Kind.Interface_Constant_Declaration):
+        # Discard signals and variables.  Make the outline unusable.
+        return
     m = SYMBOLS_MAP.get(k, None)
     if m is None:
         raise AssertionError("get_symbol: unhandled {}".format(pyutils.kind_image(k)))
