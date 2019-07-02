@@ -62,15 +62,47 @@ class Workspace(object):
     def root_uri(self):
         return self._root_uri
 
+    def _create_document(self, doc_uri, sfe, version=None):
+        """Create a document and put it in this workspace."""
+        doc = document.Document(doc_uri, sfe, version)
+        self._docs[doc_uri] = doc
+        self._fe_map[sfe] = doc
+        return doc
+
     def create_document_from_sfe(self, sfe, abspath):
         # A filename has been given without a corresponding document.
         # Create the document.
         # Common case: an error message was reported in a non-open document.
         #  Create a document so that it could be reported to the client.
         doc_uri = 'file://' + os.path.normpath(abspath)
-        doc = document.Document(doc_uri, sfe)
-        self._fe_map[sfe] = doc
-        self._docs[doc_uri] = doc
+        return self._create_document(doc_uri, sfe)
+
+    def create_document_from_uri(self, doc_uri, source=None, version=None):
+        # A document is referenced by an uri but not known.  Load it.
+        # We assume the path is correct.
+        path = lsp.path_from_uri(doc_uri)
+        if source is None:
+            source = open(path).read()
+        sfe = document.Document.load(source, os.path.dirname(path), os.path.basename(path))
+        return self._create_document(doc_uri, sfe)
+
+    def get_or_create_document(self, doc_uri):
+        return self._docs.get(doc_uri) or self.create_document_from_uri(doc_uri)
+
+    def get_document(self, doc_uri):
+        """Get a document from :param doc_uri:  Note that the document may not exist,
+        and this function may return None."""
+        return self._docs.get(doc_uri)
+
+    def put_document(self, doc_uri, source, version=None):
+        doc = self.get_document(doc_uri)
+        if doc is None:
+            doc = self.create_document_from_uri(doc_uri, source=source, version=version)
+        else:
+            # The document may already be present (loaded from a project)
+            # In that case, overwrite it as the client may have a more
+            # recent version.
+            doc.reload(source)
         return doc
 
     def sfe_to_document(self, sfe):
@@ -172,33 +204,6 @@ class Workspace(object):
         except ProjectError as e:
             self._server.show_message(lsp.MessageType.Error,
                 "error in project file: {}".format(e.msg))
-
-    def _create_document(self, doc_uri, source=None, version=None):
-        path = lsp.path_from_uri(doc_uri)
-        if source is None:
-            source = open(path).read()
-        sfe = document.Document.load(source, os.path.dirname(path), os.path.basename(path))
-        return document.Document(doc_uri, sfe, version)
-
-    def get_or_create_document(self, doc_uri):
-        return self._docs.get(doc_uri) or self._create_document(doc_uri)
-
-    def get_document(self, doc_uri):
-        return self._docs.get(doc_uri)
-
-    def put_document(self, doc_uri, source, version=None):
-        doc = self.get_document(doc_uri)
-        if doc is None:
-            doc = self._create_document(doc_uri, source=source, version=version)
-            self._docs[doc_uri] = doc
-            if doc._fe is not None:
-                self._fe_map[doc._fe] = doc
-        else:
-            # The document may already be present (loaded from a project)
-            # In that case, overwrite it as the client may have a more
-            # recent version.
-            doc.reload(source)
-        return doc
 
     def get_configuration(self):
         self._server.configuration([{'scopeUri': '', 'section': 'vhdl.maxNumberOfProblems'}])
