@@ -2,6 +2,10 @@ Common options:
 
  "options": { "ghdl_analysis": [ "--ieee=synopsys" ] },
   
+Converting from lsp to json (for writing tests):
+
+  python3 -m vhdl_langserver.lsptools lsp2json < vhdl-ls.trace.in > cmds.json
+
 Creating a project from HDLMake:
 
 hdl-prj.json: Makefile
