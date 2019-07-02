@@ -63,6 +63,10 @@ class Workspace(object):
         return self._root_uri
 
     def create_document_from_sfe(self, sfe, abspath):
+        # A filename has been given without a corresponding document.
+        # Create the document.
+        # Common case: an error message was reported in a non-open document.
+        #  Create a document so that it could be reported to the client.
         doc_uri = 'file://' + os.path.normpath(abspath)
         doc = document.Document(doc_uri, sfe)
         self._fe_map[sfe] = doc
@@ -90,12 +94,15 @@ class Workspace(object):
         else:
             absname = os.path.join(self._root_path, name)
         # Create a document for this file.
-        if not os.path.exists(absname):
+        try:
+            fd = open(absname)
+            sfe = document.Document.load(fd.read(), self._root_path, name)
+            fd.close()
+        except OSError as err:
             self._server.show_message(
                 lsp.MessageType.Error,
-                "cannot load {}: file does not exists".format(name))
+                "cannot load {}: {}".format(name, err.strerror))
             return
-        sfe = document.Document.load(open(absname).read(), self._root_path, name)
         doc = self.create_document_from_sfe(sfe, absname)
         doc._tree = document.Document.parse_document(sfe)
         if doc._tree != nodes.Null_Iir:

@@ -102,6 +102,7 @@ class VhdlLanguageServer(object):
 
     def textDocument_didSave(self, textDocument=None, text=None, **_kwargs):
         if text is not None:
+            # Sanity check: check we have the same content for the document.
             self.workspace.check_document(textDocument['uri'], text)
         else:
             log.debug("did save - no text")
