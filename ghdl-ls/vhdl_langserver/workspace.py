@@ -111,19 +111,25 @@ class Workspace(object):
     def read_project(self):
         prj_file = os.path.join(self.root_path, 'hdl-prj.json')
         if not os.path.exists(prj_file):
-            log.info("project file %s not found", prj_file)
+            log.info("project file %s does not exist", prj_file)
             return
         try:
-            with open(prj_file) as f:
-                log.info("reading project file %s", prj_file)
-                self._prj = json.load(f)
+            f = open(prj_file)
+        except OSError as err:
+            self._server.show_message(
+                lsp.MessageType.Error,
+                "cannot open project file {}: {}".format(prj_file, err.strerror))
+            return
+        log.info("reading project file %s", prj_file)
+        try:
+            self._prj = json.load(f)
         except json.decoder.JSONDecodeError as e:
             log.info("error in project file")
             self._server.show_message(
                 lsp.MessageType.Error,
                 "json error in project file {}:{}:{}".format(
-                    prj_file, e.lineno, e.colno)
-            )
+                    prj_file, e.lineno, e.colno))
+        f.close()
 
     def set_options_from_project(self):
         try:
