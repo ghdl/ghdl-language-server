@@ -6,6 +6,9 @@ import logging
 import sys
 import os
 
+import libghdl
+import libghdl.thin.errorout_console
+
 from . import version
 from . import lsp
 from . import vhdl_ls
@@ -61,8 +64,15 @@ def main():
     parser.add_argument(
         '--input', '-i',
         help="Read request from file")
+    parser.add_argument(
+        '--disp-config', action='store_true', help="Disp installation configuration and exit")
 
     args = parser.parse_args()
+
+    if args.disp_config:
+        libghdl.thin.errorout_console.Install_Handler()
+        libghdl.disp_config()
+        return
 
     # Setup logging
     if args.verbose >= 2:
