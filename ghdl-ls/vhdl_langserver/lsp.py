@@ -10,7 +10,7 @@ except ImportError:
     from urllib2 import quote
     from urlparse import unquote
 
-logger = logging.getLogger('ghdl-ls')
+log = logging.getLogger('ghdl-ls')
 
 class ProtocolError(Exception):
     pass
@@ -73,7 +73,7 @@ class LanguageProtocolServer(object):
             line = line[:-2]
             if not line:
                 # End of headers.
-                logger.debug('Headers: %r', headers)
+                log.debug('Headers: %r', headers)
                 length = headers.get('Content-Length', None)
                 if length is not None:
                     body = self.conn.read(int(length))
@@ -90,11 +90,10 @@ class LanguageProtocolServer(object):
             if body is None:
                 # EOF
                 break
-            logger.debug('Read body: %s', body)
 
             # Text to JSON
             msg = json.loads(body)
-            logger.debug('Read msg: %s', msg)
+            log.debug('Read msg: %s', msg)
 
             reply = self.handle(msg)
             if reply is not None:
@@ -107,7 +106,7 @@ class LanguageProtocolServer(object):
         method = msg.get('method', None)
         if method is None:
             # This is a reply.
-            logger.error('Unexpected reply for %s', tid)
+            log.error('Unexpected reply for %s', tid)
             return
         params = msg.get('params', None)
         fmethod = self.handler.dispatcher.get(method, None)
@@ -118,7 +117,7 @@ class LanguageProtocolServer(object):
             if tid is None:
                 # If this was just a notification, discard it
                 return None
-            logger.debug('Response: %s', response)
+            log.debug('Response: %s', response)
             rbody = {
                 "jsonrpc": "2.0",
                 "id": tid,
@@ -126,7 +125,7 @@ class LanguageProtocolServer(object):
             }
         else:
             # Unknown method.
-            logger.error('Unknown method %s', method)
+            log.error('Unknown method %s', method)
             # If this was just a notification, discard it
             if tid is None:
                 return None
