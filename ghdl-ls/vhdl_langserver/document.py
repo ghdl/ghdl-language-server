@@ -118,10 +118,7 @@ class Document(object):
     def compute_diags(self):
         log.debug("parse doc %d %s", self._fe, self.uri)
         tree = Document.parse_document(self._fe)
-        if self._tree != nodes.Null_Iir:
-            # FIXME: free + dependencies ?
-            log.debug("purge %d", self._tree)
-            libraries.Purge_Design_File(self._tree)
+        assert self._tree == nodes.Null_Iir
         self._tree = Document.add_to_library(tree)
         if self._tree == nodes.Null_Iir:
             # No units, nothing to add.

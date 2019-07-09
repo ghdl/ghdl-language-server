@@ -259,9 +259,14 @@ class Workspace(object):
             self.publish_diagnostics(doc.uri, [])
 
     def lint(self, doc_uri):
-        d = self.get_document(doc_uri)
-        d.compute_diags()
-        self.gather_diagnostics(d)
+        doc = self.get_document(doc_uri)
+        if doc._tree != nodes.Null_Iir:
+            # FIXME: free + dependencies ?
+            log.debug("purge %d", doc._tree)
+            libraries.Purge_Design_File(doc._tree)
+            doc._tree = nodes.Null_Iir
+        doc.compute_diags()
+        self.gather_diagnostics(doc)
 
     def check_document(self, doc_uri, source):
         self._docs[doc_uri].check_document(source)
