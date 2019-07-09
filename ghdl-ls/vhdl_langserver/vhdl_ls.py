@@ -79,11 +79,10 @@ class VhdlLanguageServer(object):
         return None
 
     def textDocument_didOpen(self, textDocument=None):
-        self.workspace.put_document(textDocument['uri'], textDocument['text'],
+        doc_uri = textDocument['uri']
+        self.workspace.put_document(doc_uri, textDocument['text'],
                                     version=textDocument.get('version'))
-        # self.lsp.configuration([{'scopeUri': textDocument['uri'],
-        #                          'section': 'vhdl'}])
-        self.lint(textDocument['uri'])
+        self.lint(doc_uri)
 
     def textDocument_didChange(self, textDocument=None, contentChanges=None):
         doc_uri = textDocument['uri']
