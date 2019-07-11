@@ -55,9 +55,9 @@ SYMBOLS_MAP = {
     nodes.Iir_Kind.If_Generate_Statement: {'kind': lsp.SymbolKind.Method},
     nodes.Iir_Kind.For_Generate_Statement: {'kind': lsp.SymbolKind.Method},
     nodes.Iir_Kind.Case_Generate_Statement: {'kind': lsp.SymbolKind.Method},
-    nodes.Iir_Kind.Sensitized_Process_Statement: {'kind': None},
+    nodes.Iir_Kind.Sensitized_Process_Statement: {'kind': lsp.SymbolKind.Method},
+    nodes.Iir_Kind.Process_Statement: {'kind': lsp.SymbolKind.Method},
     nodes.Iir_Kind.Configuration_Specification: {'kind': None},
-    nodes.Iir_Kind.Process_Statement: {'kind': None},
 }
 
 def location_to_position(fe, loc):
@@ -77,6 +77,7 @@ def get_symbols(fe, n):
         return get_symbols(fe, nodes.Get_Library_Unit(n))
     if k in (nodes.Iir_Kind.Signal_Declaration,
              nodes.Iir_Kind.Variable_Declaration,
+             nodes.Iir_Kind.Constant_Declaration,
              nodes.Iir_Kind.Interface_Signal_Declaration,
              nodes.Iir_Kind.Interface_Constant_Declaration):
         # Discard signals and variables.  Make the outline unusable.
@@ -115,7 +116,9 @@ def get_symbols(fe, n):
              nodes.Iir_Kind.Entity_Declaration,
              nodes.Iir_Kind.Package_Declaration,
              nodes.Iir_Kind.Package_Body,
-             nodes.Iir_Kind.Component_Declaration):
+             nodes.Iir_Kind.Component_Declaration,
+             nodes.Iir_Kind.Process_Statement,
+             nodes.Iir_Kind.Sensitized_Process_Statement):
         start_loc = elocations.Get_Start_Location(n)
         end_loc = elocations.Get_End_Location(n)
     else:
