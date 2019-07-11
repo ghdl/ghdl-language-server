@@ -1,6 +1,7 @@
 import logging
 import os
 import json
+from ctypes import byref
 import libghdl
 import libghdl.thin.errorout_memory as errorout_memory
 import libghdl.thin.flags
@@ -9,6 +10,7 @@ import libghdl.thin.files_map as files_map
 import libghdl.thin.libraries as libraries
 import libghdl.thin.name_table as name_table
 import libghdl.thin.vhdl.nodes as nodes
+import libghdl.thin.vhdl.lists as lists
 import libghdl.thin.vhdl.std_package as std_package
 import libghdl.thin.vhdl.parse
 import libghdl.thin.vhdl.pyutils as pyutils
@@ -32,6 +34,7 @@ class Workspace(object):
         self._docs = {}     # uri -> doc
         self._fe_map = {}   # fe -> doc
         self._prj = {}
+        self._last_linted_doc = None
         errorout_memory.Install_Handler()
         libghdl.thin.flags.Flag_Elocations.value = True
         #thin.Flags.Verbose.value = True
@@ -258,11 +261,47 @@ class Workspace(object):
             # Clear previous diagnostics for the doc.
             self.publish_diagnostics(doc.uri, [])
 
+    def obsolete_dependent_units(self, unit, antideps):
+        """Obsolete units that depends of :param unit:"""
+        udeps = antideps.get(unit, None)
+        if udeps is None:
+            # There are no units.
+            return
+        # Avoid infinite recursion
+        antideps[unit] = None
+        for un in udeps:
+            log.debug("obsolete %d %s", un, pyutils.name_image(nodes.Get_Identifier(un)))
+            # Recurse
+            self.obsolete_dependent_units(un, antideps)
+            if nodes.Set_Date_State(un) == nodes.Date_State.Disk:
+                # Already obsolete!
+                continue
+            # FIXME: just de-analyze ?
+            nodes.Set_Date_State(un, nodes.Date_State.Disk)
+            loc = nodes.Get_Location(un)
+            fil = files_map.Location_To_File(loc)
+            pos = files_map.Location_File_To_Pos(loc, fil)
+            line = files_map.Location_File_To_Line(loc, fil)
+            col = files_map.Location_File_Line_To_Offset(loc, fil, line)
+            nodes.Set_Design_Unit_Source_Pos(un, pos)
+            nodes.Set_Design_Unit_Source_Line(un, line)
+            nodes.Set_Design_Unit_Source_Col(un, col)
+
     def lint(self, doc_uri):
         doc = self.get_document(doc_uri)
         if doc._tree != nodes.Null_Iir:
-            # FIXME: free + dependencies ?
-            log.debug("purge %d", doc._tree)
+            # Free old tree
+            assert nodes.Get_Kind(doc._tree) == nodes.Iir_Kind.Design_File
+            if self._last_linted_doc == doc:
+                antideps = None
+            else:
+                antideps = self.compute_anti_dependences()
+            unit = nodes.Get_First_Design_Unit(doc._tree)
+            while unit != nodes.Null_Iir:
+                if antideps is not None:
+                    self.obsolete_dependent_units(unit, antideps)
+                # FIXME: free unit; it is not referenced.
+                unit = nodes.Get_Chain(unit)
             libraries.Purge_Design_File(doc._tree)
             doc._tree = nodes.Null_Iir
         doc.compute_diags()
@@ -370,3 +409,31 @@ class Workspace(object):
                 'ports': create_interfaces(nodes.Get_Port_Chain(ent))}
 
 
+    def compute_anti_dependences(self):
+        """Return a dictionnary of anti dependencies for design unit"""
+        res = {}
+        lib = libraries.Get_Libraries_Chain()
+        while lib != nodes.Null_Iir:
+            files = nodes.Get_Design_File_Chain(lib)
+            while files != nodes.Null_Iir:
+                units = nodes.Get_First_Design_Unit(files)
+                while units != nodes.Null_Iir:
+                    if nodes.Get_Date_State(units) == nodes.Date_State.Analyze:
+                        # The unit has been analyzed, so the dependencies are know.
+                        deps = nodes.Get_Dependence_List(units)
+                        assert deps != nodes.Null_Iir_List
+                        deps_it = lists.Iterate(deps)
+                        while lists.Is_Valid(byref(deps_it)):
+                            el = lists.Get_Element(byref(deps_it))
+                            if nodes.Get_Kind(el) == nodes.Iir_Kind.Design_Unit:
+                                if res.get(el, None):
+                                    res[el].append(units)
+                                else:
+                                    res[el] = [units]
+                            else:
+                                assert False
+                            lists.Next(byref(deps_it))
+                    units = nodes.Get_Chain(units)
+                files = nodes.Get_Chain(files)
+            lib = nodes.Get_Chain(lib)
+        return res
