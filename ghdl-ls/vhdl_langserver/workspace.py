@@ -14,6 +14,7 @@ import libghdl.thin.vhdl.lists as lists
 import libghdl.thin.vhdl.std_package as std_package
 import libghdl.thin.vhdl.parse
 import libghdl.thin.vhdl.pyutils as pyutils
+import libghdl.thin.vhdl.sem_lib as sem_lib
 
 from . import lsp
 from . import document, symbols
@@ -278,6 +279,7 @@ class Workspace(object):
                 continue
             # FIXME: just de-analyze ?
             nodes.Set_Date_State(un, nodes.Date_State.Disk)
+            sem_lib.Free_Dependence_List(un)
             loc = nodes.Get_Location(un)
             fil = files_map.Location_To_File(loc)
             pos = files_map.Location_File_To_Pos(loc, fil)
