@@ -78,18 +78,18 @@
         }
       },
       {
-        "kind": 14,
-        "name": "clk_period",
+        "kind": 6,
+        "name": "clk_process",
         "location": {
           "uri": "file:///home/tgingold/work/ghdl-language-server/ghdl-ls/tests/files/heartbeat.vhdl",
           "range": {
             "start": {
-              "line": 10,
-              "character": 11
+              "line": 13,
+              "character": 15
             },
             "end": {
-              "line": 10,
-              "character": 21
+              "line": 19,
+              "character": 2
             }
           }
         },

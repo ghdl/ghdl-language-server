@@ -118,40 +118,6 @@
         }
       },
       {
-        "kind": 2,
-        "name": "adder",
-        "location": {
-          "uri": "file:///home/tgingold/work/vhdl-language-server/tests/files/adder_tb.vhdl",
-          "range": {
-            "start": {
-              "line": 7,
-              "character": 2
-            },
-            "end": {
-              "line": 9,
-              "character": 2
-            }
-          }
-        },
-        "containerName": {
-          "kind": 2,
-          "name": "behav",
-          "location": {
-            "uri": "file:///home/tgingold/work/vhdl-language-server/tests/files/adder_tb.vhdl",
-            "range": {
-              "start": {
-                "line": 5,
-                "character": 0
-              },
-              "end": {
-                "line": 57,
-                "character": 0
-              }
-            }
-          }
-        }
-      },
-      {
         "kind": 6,
         "name": "adder_0",
         "location": {
