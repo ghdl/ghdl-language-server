@@ -61,6 +61,7 @@ SYMBOLS_MAP = {
 }
 
 def location_to_position(fe, loc):
+    assert loc != files_map.No_Location
     line = files_map.Location_File_To_Line(loc, fe)
     off = files_map.Location_File_Line_To_Offset(loc, fe, line)
     return {'line': line - 1, 'character': off}
@@ -75,19 +76,12 @@ def get_symbols(fe, n):
     k = nodes.Get_Kind(n)
     if k == nodes.Iir_Kind.Design_Unit:
         return get_symbols(fe, nodes.Get_Library_Unit(n))
-    if k in (nodes.Iir_Kind.Signal_Declaration,
-             nodes.Iir_Kind.Variable_Declaration,
-             nodes.Iir_Kind.Constant_Declaration,
-             nodes.Iir_Kind.Interface_Signal_Declaration,
-             nodes.Iir_Kind.Interface_Constant_Declaration):
-        # Discard signals and variables.  Make the outline unusable.
-        return
     m = SYMBOLS_MAP.get(k, None)
     if m is None:
         raise AssertionError("get_symbol: unhandled {}".format(pyutils.kind_image(k)))
     kind = m['kind']
     if kind is None:
-        return
+        return None
     if k in [nodes.Iir_Kind.Procedure_Declaration,
              nodes.Iir_Kind.Function_Declaration]:
         # Discard implicit declarations.
@@ -108,9 +102,9 @@ def get_symbols(fe, n):
     else:
         nid = nodes.Get_Identifier(n)
     if nid == name_table.Null_Identifier:
-        res['name'] = '<anon>'
+        name = None
     else:
-        res['name'] = pyutils.name_image(nid)
+        name = pyutils.name_image(nid)
     # Get the range.  Use elocations when possible.
     if k in (nodes.Iir_Kind.Architecture_Body,
              nodes.Iir_Kind.Entity_Declaration,
@@ -118,9 +112,14 @@ def get_symbols(fe, n):
              nodes.Iir_Kind.Package_Body,
              nodes.Iir_Kind.Component_Declaration,
              nodes.Iir_Kind.Process_Statement,
-             nodes.Iir_Kind.Sensitized_Process_Statement):
+             nodes.Iir_Kind.Sensitized_Process_Statement,
+             nodes.Iir_Kind.If_Generate_Statement,
+             nodes.Iir_Kind.For_Generate_Statement):
         start_loc = elocations.Get_Start_Location(n)
         end_loc = elocations.Get_End_Location(n)
+        if end_loc == files_map.No_Location:
+            # Can happen in case of parse error
+            end_loc = start_loc
     else:
         start_loc = nodes.Get_Location(n)
         end_loc = start_loc + name_table.Get_Name_Length(nid)
@@ -130,17 +129,24 @@ def get_symbols(fe, n):
     # Gather children.
     # FIXME: should we use a list of fields to inspect ?
     children = []
-    if nodes_meta.Has_Generic_Chain(k):
-        children.extend(get_symbols_chain(fe, nodes.Get_Generic_Chain(n)))
-    if nodes_meta.Has_Port_Chain(k):
-        children.extend(get_symbols_chain(fe, nodes.Get_Port_Chain(n)))
-    if nodes_meta.Has_Interface_Declaration_Chain(k):
-        children.extend(get_symbols_chain(fe, nodes.Get_Interface_Declaration_Chain(n)))
-    if nodes_meta.Has_Declaration_Chain(k):
+    #if nodes_meta.Has_Generic_Chain(k):
+    #    children.extend(get_symbols_chain(fe, nodes.Get_Generic_Chain(n)))
+    #if nodes_meta.Has_Port_Chain(k):
+    #    children.extend(get_symbols_chain(fe, nodes.Get_Port_Chain(n)))
+    #if nodes_meta.Has_Interface_Declaration_Chain(k):
+    #    children.extend(get_symbols_chain(fe, nodes.Get_Interface_Declaration_Chain(n)))
+    if k in (nodes.Iir_Kind.Package_Declaration, nodes.Iir_Kind.Package_Body):
         children.extend(get_symbols_chain(fe, nodes.Get_Declaration_Chain(n)))
     if nodes_meta.Has_Concurrent_Statement_Chain(k):
         children.extend(get_symbols_chain(fe, nodes.Get_Concurrent_Statement_Chain(n)))
+    if nodes_meta.Has_Generate_Statement_Body(k):
+        children.extend(get_symbols_chain(fe, nodes.Get_Concurrent_Statement_Chain(nodes.Get_Generate_Statement_Body(n))))
 
     if children:
         res['children'] = children
+    else:
+        # Discard anonymous symbols without children.
+        if name is None:
+            return None
+    res['name'] = name if name is not None else '<anon>'
     return res
