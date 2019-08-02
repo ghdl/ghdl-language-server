@@ -84,7 +84,8 @@ class VhdlLanguageServer(object):
                                     version=textDocument.get('version'))
         self.lint(doc_uri)
 
-    def textDocument_didChange(self, textDocument=None, contentChanges=None):
+    def textDocument_didChange(self, textDocument=None, contentChanges=None,
+                               **_kwargs):
         doc_uri = textDocument['uri']
         doc = self.workspace.get_document(doc_uri)
         assert doc is not None, 'try to modify a non-loaded document'
