@@ -70,11 +70,11 @@
 				}
 			]
 		},
-        "configurationDefaults": {
-            "[vhdl]": {
-                "files.encoding": "iso88591"
-            }
-        },
+		"configurationDefaults": {
+			"[vhdl]": {
+				"files.encoding": "iso88591"
+			}
+		},
 		"configuration": {
 			"type": "object",
 			"title": "Vhdl configuration",
@@ -111,8 +111,7 @@
 		"@types/node": "^8.10.25",
 		"@types/vscode": "^1.34.0",
 		"tslint": "^5.16.0",
-		"typescript": "^3.5.1",
-		"vscode": "^1.1.34"
+		"typescript": "^3.5.1"
 	},
 	"dependencies": {
 		"vscode-languageclient": "^4.1.4"
