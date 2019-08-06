@@ -39,13 +39,13 @@
 			{
 				"language": "vhdl",
 				"scopeName": "source.vhdl",
-				"path": "./syntaxes/vhdl.tmLanguage.json"
+				"path": "./syntaxes.vhdl.tmLanguage.json"
 			}
 		],
 		"snippets": [
 			{
 				"language": "vhdl",
-				"path": "./snippets/vhdl-snippets.json"
+				"path": "./snippets.vhdl.json"
 			}
 		],
 		"commands": [
