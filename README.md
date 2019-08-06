@@ -48,6 +48,13 @@ its client.
 
 # Visual Studio Code (VSC) Extension
 
+<p align="center">
+  <a title="vscode-client Dependency Status" href="https://david-dm.org/ghdl/ghdl-language-server?path=vscode-client"><img src="https://img.shields.io/david/ghdl/ghdl-language-server.svg?path=vscode-client&longCache=true&style=flat-square&label=deps"></a><!--
+  -->
+  <a title="vscode-client DevDependency Status" href="https://david-dm.org/ghdl/ghdl-language-server?path=vscode-client&type=dev"><img src="https://img.shields.io/david/dev/ghdl/ghdl-language-server.svg?path=vscode-client&longCache=true&style=flat-square&label=devdeps"></a><!--
+  -->
+</p>
+
 Subdir `vscode-client` contains the sources of a VSC Extension; a LSP client that allows to have ghdl-ls integrated in VSC.
 
 ## Build
