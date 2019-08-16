@@ -117,3 +117,7 @@ All of these can be used with VSC's 'Remote - Containers' Extension as follows:
 > - There are some example VHDL files in /tmp/files.
 > - All the terminals you open in VSC will be inside the container.
 > - In order to use gtkwave, the container must have access to some X server. [x11docker](https://github.com/mviereck/x11docker) and/or [runx](https://github.com/mviereck/runx) can be helpful in this context.
+
+# Emacs extension
+
+Subdir `emacs-client` contains instructions and an example configuration init file for use with emacs, including a LSP client that allows to have ghdl-ls integrated in Emacs.
