@@ -1,0 +1,207 @@
+#+AUTHOR:    Cayetano Santos
+#+LANGUAGE:  en
+#+DESCRIPTION: Example emacs configuration
+#+OPTIONS:   H:3 num:nil toc:2
+
+* Table of Contents                                 :TOC:
+:PROPERTIES:
+:VISIBILITY: all
+:END:
+
+- [[#usage][Usage]]
+- [[#example-configuration-file][Example configuration file]]
+  - [[#package-management][Package management]]
+  - [[#ancillary-packages][Ancillary packages]]
+    - [[#flycheck][Flycheck]]
+    - [[#company][Company]]
+  - [[#lsp][Lsp]]
+  - [[#vhdl][Vhdl]]
+
+* Usage
+
+Within emacs, run =M-x org-babel-tangle= to extract source code out of this file
+to =/tmp/emacs.d/init.el=. This example code may be used as emacs [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html][init file]] when
+starting emacs as
+
+#+begin_src sh :tangle no
+  emacs -q -l /tmp/emacs.d/init.el
+#+end_src
+
+It assumes =/tmp/emacs.d= as =user-emacs-directory= to avoid overwritting the
+default user directory. You may modify this location in the =header-args= property
+of the [[*Example configuration file][Example configuration file]] section below.
+
+It’s been tested under emacs 26.2.90 and assumes =ghdl-ls= is in your =PATH=, and
+network is available to download necessary packages. Note that first run may be
+a bit due to downloading, compilation and installing of packages.
+
+* Example configuration file
+:PROPERTIES:
+:header-args: :tangle /tmp/emacs.d/init.el :mkdirp yes
+:END:
+
+** Package management
+
+Setup necessary package management.
+
+First, define user related variables
+
+#+begin_src emacs-lisp
+  (setq user-emacs-directory "/tmp/emacs.d"
+        package-user-dir (format "%s/elpa" user-emacs-directory)
+        load-prefer-newer t)
+#+end_src
+
+Package handling
+
+#+begin_src emacs-lisp
+  (setq package-enable-at-startup t)
+  (package-initialize)
+#+end_src
+
+Declare remote repository where to download packages from
+
+#+begin_src emacs-lisp
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-refresh-contents)
+#+end_src
+
+Finally, install use-package if necessary
+
+#+begin_src emacs-lisp
+  (when (not (package-installed-p 'use-package))
+    (package-install 'use-package))
+#+end_src
+
+** Ancillary packages
+
+*** Flycheck
+
+Flycheck is a modern on-the-fly syntax checking extension for GNU Emacs,
+intended as replacement for the older Flymake extension which is part of GNU
+Emacs.
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :defer t
+    :init (global-flycheck-mode t))
+#+end_src
+
+*** Company
+
+#+begin_src emacs-lisp
+  (use-package company
+    :ensure t
+    :defer t
+    :init (global-company-mode t)
+    :config
+    ;; Company Flx adds fuzzy matching to company, powered by the sophisticated
+    ;; sorting heuristics  in =flx=
+    (use-package company-flx
+      :ensure t
+      :after company
+      :init (company-flx-mode t))
+    ;; Company Quickhelp
+    ;; When idling on a completion candidate the documentation for the
+    ;; candidate will pop up after `company-quickhelp-delay' seconds.
+    (use-package company-quickhelp
+      :after company
+      :ensure t
+      ;; :init (company-quickhelp-mode t)
+      :hook (prog-mode . (lambda ()
+                           (when (window-system)
+                             (company-quickhelp-local-mode))))
+      :config
+      (setq company-quickhelp-delay 0.2
+            company-quickhelp-max-lines nil)))
+#+end_src
+
+** Lsp
+
+Setup related to the language server protocol.
+
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :defer t
+    :ensure t
+    :commands lsp
+    :config
+    (setq lsp-log-io nil
+          lsp-auto-configure t
+          lsp-auto-guess-root t
+          lsp-enable-completion-at-point t
+          lsp-enable-xref t
+          lsp-prefer-flymake nil
+          lsp-use-native-json t
+          lsp-enable-indentation t
+          lsp-response-timeout 10
+          lsp-restart 'auto-restart
+          lsp-keep-workspace-alive t
+          lsp-eldoc-render-all nil
+          lsp-enable-snippet nil
+          lsp-enable-folding t)
+     ;;; lsp-ui gives us the blue documentation boxes and the sidebar info
+    (use-package lsp-ui
+      :defer t
+      :ensure t
+      :after lsp
+      :commands lsp-ui-mode
+      :config
+      (setq lsp-ui-sideline-ignore-duplicate t
+            lsp-ui-sideline-delay 0.5
+            lsp-ui-sideline-show-symbol t
+            lsp-ui-sideline-show-hover t
+            lsp-ui-sideline-show-diagnostics t
+            lsp-ui-sideline-show-code-actions t
+            lsp-ui-peek-always-show t
+            lsp-ui-doc-use-childframe t)
+      :bind
+      (:map lsp-ui-mode-map
+            ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+            ([remap xref-find-references] . lsp-ui-peek-find-references))
+      :hook
+      ((lsp-mode . lsp-ui-mode)
+       (lsp-after-open . (lambda ()
+                           (lsp-ui-flycheck-enable t)
+                           (lsp-ui-sideline-enable t)
+                           (lsp-ui-imenu-enable t)
+                           (lsp-lens-mode t)
+                           (lsp-ui-peek-enable t)
+                           (lsp-ui-doc-enable t)))))
+    ;;; company lsp
+    ;; install LSP company backend for LSP-driven completion
+    (use-package company-lsp
+      :defer t
+      :ensure t
+      :after company
+      :commands company-lsp
+      :config
+      (setq company-lsp-cache-candidates t
+            company-lsp-enable-recompletion t
+            company-lsp-enable-snippet t
+            company-lsp-async t)
+      ;; avoid, as this changes it globally do it in the major mode instead (push
+      ;; 'company-lsp company-backends) better set it locally
+      :hook (lsp-after-open . (lambda()
+                                (add-to-list (make-local-variable 'company-backends)
+                                             'company-lsp)))))
+#+end_src
+
+** Vhdl
+
+#+begin_src emacs-lisp
+  (use-package vhdl-mode
+    :defer t
+    :config
+    (require 'lsp)
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection '("ghdl-ls" "-v" "--trace-file=/tmp/emacs.d/vhdl-ls.trace"))
+                      :major-modes '(vhdl-mode)
+                      :priority -1
+                      :server-id 'lsp-vhdl-mode))
+    :hook (vhdl-mode . (lambda()
+                         (lsp)
+                         (flycheck-mode t)
+                         (add-to-list 'lsp-language-id-configuration '(vhdl-mode . "vhdl")))))
+#+end_src
