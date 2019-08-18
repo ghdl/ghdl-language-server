@@ -1,3 +1,5 @@
+*.js
+*.map
 out
 node_modules
 client/server
