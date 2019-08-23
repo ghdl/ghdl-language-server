@@ -99,15 +99,15 @@ This makes `ghdl-ls` write logs (`vhdl-ls.log`, `vhdl-ls.trace.in` and `vhdl-ls.
 
 # Ready-to-use Docker images
 
-In the Continuous Integration (CI) pipeline of [ghdl/docker](https://github.com/ghdl/docker), some images are generated which include `ghdl-ls` and `vsce-client`. These are uploaded to [ghdl/ext](https://cloud.docker.com/u/ghdl/repository/docker/ghdl/ext/tags) at [cloud.docker.com/u/ghdl/repository/list](https://cloud.docker.com/u/ghdl/repository/list).
+In the Continuous Integration (CI) pipeline of [ghdl/docker](https://github.com/ghdl/docker), some images are generated which include `ghdl-ls` and `vsce-client`. These are uploaded to [ghdl/ext:*](https://hub.docker.com/r/ghdl/ext/tags) at [hub.docker.com/u/ghdl](https://cloud.docker.com/u/ghdl/repository/list).
 
 - `ghdl/ext:ls-debian`: based on Debian Buster, it contains Python 3, GHDL, libghdl-py, ghdl-ls and vscode-client.
-  - `ghdl/ext:ls-vunit-gtkwave`: based on `ls-debian`, it contains VUnit and GtkWave too.
+  - `ghdl/ext:latest`: based on `ls-debian`, it contains VUnit and GtkWave too.
 - `ghdl/ext:ls-ubuntu`: based on Ubuntu Bionic, it contains the same tools as `ls-debian`.
 
 All of these can be used with VSC's 'Remote - Containers' Extension as follows:
 
-- Start a container: `docker run --name ghdl-ls --rm -d ghdl/ext:ls-vunit-gtkwave bash -c "/opt/ghdl/install_vsix.sh && tail -f /dev/null"`
+- Start a container: `docker run --name ghdl-ls --rm -d ghdl/ext:latest bash -c "/opt/ghdl/install_vsix.sh && tail -f /dev/null"`
 - In VSC, go to `Remote-Containers: Attach to Running Container...` and select the container named `ghdl-ls`.
   - Alternatively, if you have the 'Docker' extension installed, just go to the list of running containers and right-click on it.
 - Wait until the new window is loaded and have fun!
