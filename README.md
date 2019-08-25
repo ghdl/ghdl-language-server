@@ -63,7 +63,7 @@ An example of `hdl-prj.json` file could be :
     "files": [
         { "file": "rtl/core.vhd",           "language": "vhdl" },
         { "file": "assembly/core_fpga.vhd", "language": "vhdl" },
-        { "file": "sim/tb_core.vhd", 		"language": "vhdl" }
+        { "file": "sim/tb_core.vhd",        "language": "vhdl" }
     ]
 }
 ```
