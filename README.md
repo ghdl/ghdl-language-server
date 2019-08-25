@@ -47,7 +47,7 @@ The executable is named `ghdl-ls`. It uses stdin/stdout to communicate with
 its client.
 
 The language server will require a project file named `hdl-prj.json` which will provide all required options to run GHDL analysis :
- - All options to pass to `ghdl -a`
+ - All options to pass to `ghdl -a` (the analysis step)
  - Your project fileset
 
 An example of `hdl-prj.json` file could be :
@@ -67,7 +67,8 @@ An example of `hdl-prj.json` file could be :
     ]
 }
 ```
- 
+
+You will find all valid options in the GHDL documentation in the [options to invoke GHDL](https://ghdl.readthedocs.io/en/latest/using/InvokingGHDL.html#options).
 
 # Visual Studio Code (VSC) Extension
 
