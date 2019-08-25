@@ -46,6 +46,29 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 The executable is named `ghdl-ls`. It uses stdin/stdout to communicate with
 its client.
 
+The language server will require a project file named `hdl-prj.json` which will provide all required options to run GHDL analysis :
+ - All options to pass to `ghdl -a`
+ - Your project fileset
+
+An example of `hdl-prj.json` file could be :
+```json
+{
+    "options": {
+        "ghdl_analysis": [
+            "--workdir=work",
+            "--ieee=synopsys",
+            "-fexplicit"
+        ]
+    },
+    "files": [
+        { "file": "rtl/core.vhd",           "language": "vhdl" },
+        { "file": "assembly/core_fpga.vhd", "language": "vhdl" },
+        { "file": "sim/tb_core.vhd", 		"language": "vhdl" }
+    ]
+}
+```
+ 
+
 # Visual Studio Code (VSC) Extension
 
 <p align="center">
