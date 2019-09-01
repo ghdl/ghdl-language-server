@@ -65,10 +65,10 @@
 		"body": [
 		"component ${1:entity} is",
 		"	generic(",
-		"		${3:generics}",
+		"		${2:generics}",
 		"	);",
 		"	port(",
-		"		${2:ports}",
+		"		${3:ports}",
 		"	);",
 		"end component;"
 		],
