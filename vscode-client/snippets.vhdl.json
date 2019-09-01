@@ -59,5 +59,20 @@
 			"end ${1};"
 		],
 		"description": "package body"
+	},
+	"Component": {
+		"prefix":"component",
+		"body": [
+		"component ${1:entity} is",
+		"	generic(",
+		"		${3:generics}",
+		"	);",
+		"	port(",
+		"		${2:ports}",
+		"	);",
+		"end component;"
+		],
+		"description": "component declaration"
 	}
 }
+
