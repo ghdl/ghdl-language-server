@@ -24,10 +24,13 @@ class Document(object):
     # set, we use the same encoding.  The client should also use 8859-1.
     encoding = 'iso-8859-1'
 
+    initial_gap_size = 4096
+
     def __init__(self, uri, sfe=None, version=None):
         self.uri = uri
         self.version = version
         self._fe = sfe
+        self.gap_size = Document.initial_gap_size
         self._tree = nodes.Null_Iir
 
     @staticmethod
@@ -35,7 +38,7 @@ class Document(object):
         # Write text to file buffer.
         src_bytes = source.encode(Document.encoding, "replace")
         src_len = len(src_bytes)
-        buf_len = src_len + 4096
+        buf_len = src_len + Document.initial_gap_size
         fileid = name_table.Get_Identifier(filename.encode('utf-8'))
         if os.path.isabs(filename):
             dirid = name_table.Null_Identifier
@@ -76,11 +79,31 @@ class Document(object):
         end_line = change_range['end']['line']
         end_col = change_range['end']['character']
 
-        files_map_editor.Replace_Text(
+        status = files_map_editor.Replace_Text(
             self._fe,
             start_line + 1, start_col,
             end_line + 1, end_col,
             ctypes.c_char_p(text_bytes), len(text_bytes))
+        if status:
+            return
+        
+        # Failed to replace text.
+        # Increase size
+        self.gap_size *= 2
+        fileid = files_map.Get_File_Name(self._fe)
+        dirid = files_map.Get_Directory_Name(self._fe)
+        buf_len = files_map.Get_File_Length(self._fe) + len(text_bytes) + self.gap_size
+        files_map.Discard_Source_File(self._fe)
+        new_sfe = files_map.Reserve_Source_File(dirid, fileid, buf_len)
+        files_map_editor.Copy_Source_File(new_sfe, self._fe)
+        files_map.Free_Source_File(self._fe)
+        self._fe = new_sfe
+        status = files_map_editor.Replace_Text(
+            self._fe,
+            start_line + 1, start_col,
+            end_line + 1, end_col,
+            ctypes.c_char_p(text_bytes), len(text_bytes))
+        assert status
 
     def check_document(self, text):
         log.debug("Checking document: %s", self.uri)

@@ -289,23 +289,41 @@ class Workspace(object):
             nodes.Set_Design_Unit_Source_Line(un, line)
             nodes.Set_Design_Unit_Source_Col(un, col)
 
+    def obsolete_doc(self, doc):
+        if doc._tree == nodes.Null_Iir:
+            return
+        # Free old tree
+        assert nodes.Get_Kind(doc._tree) == nodes.Iir_Kind.Design_File
+        if self._last_linted_doc == doc:
+            antideps = None
+        else:
+            antideps = self.compute_anti_dependences()
+        unit = nodes.Get_First_Design_Unit(doc._tree)
+        while unit != nodes.Null_Iir:
+            if antideps is not None:
+                self.obsolete_dependent_units(unit, antideps)
+            # FIXME: free unit; it is not referenced.
+            unit = nodes.Get_Chain(unit)
+        libraries.Purge_Design_File(doc._tree)
+        doc._tree = nodes.Null_Iir
+
     def lint(self, doc_uri):
         doc = self.get_document(doc_uri)
-        if doc._tree != nodes.Null_Iir:
-            # Free old tree
-            assert nodes.Get_Kind(doc._tree) == nodes.Iir_Kind.Design_File
-            if self._last_linted_doc == doc:
-                antideps = None
-            else:
-                antideps = self.compute_anti_dependences()
-            unit = nodes.Get_First_Design_Unit(doc._tree)
-            while unit != nodes.Null_Iir:
-                if antideps is not None:
-                    self.obsolete_dependent_units(unit, antideps)
-                # FIXME: free unit; it is not referenced.
-                unit = nodes.Get_Chain(unit)
-            libraries.Purge_Design_File(doc._tree)
-            doc._tree = nodes.Null_Iir
+        self.obsolete_doc(doc)
+        doc.compute_diags()
+        self.gather_diagnostics(doc)
+
+    def apply_changes(self, doc_uri, contentChanges, new_version):
+        doc = self.get_document(doc_uri)
+        assert doc is not None, 'try to modify a non-loaded document'
+        self.obsolete_doc(doc)
+        prev_sfe = doc._fe
+        for change in contentChanges:
+            doc.apply_change(change)
+        if doc._fe != prev_sfe:
+            del self._fe_map[prev_sfe]
+            self._fe_map[doc._fe] = doc
+        # Like lint
         doc.compute_diags()
         self.gather_diagnostics(doc)
 
