@@ -2,77 +2,334 @@
 	"Library": {
 		"prefix": "library",
 		"body": [ "library ${1:ieee};"],
-		"description": "library"
+		"description": "keyword: library"
 	},
 	"Use": {
 		"prefix": "use",
 		"body": [ "use ${1:ieee.std_logic_1164}.all;"],
-		"description": "use clause"
+		"description": "keyword: use"
+	},
+	"Context": {
+		"prefix": "context 2008",
+		"body": [ "context ${1:ieee}.${2:ieee_std_context};"],
+		"description": "keyword: context (vhdl 2008)"
+	},
+	"Others": {
+		"prefix": ["others"],
+		"body": ["(others => ${1:<value>})${2|,;|}"],
+		"description": "keyword: others"
+	},
+	"Elsif": {
+		"prefix": "elsif",
+		"body": [
+			"elsif ${1:expression} then",
+			"\t$0"
+		],
+		"description": "keyword: elsif"
+	},
+	"Elsif Generate 2008": {
+		"prefix": "elsif_generate_2008",
+		"body": [
+			"elsif ${1:expression} generate",
+			"\t${2}"
+		],
+		"description": "keyword: elsif generate (vhdl 2008)"
+	},
+	"When": {
+		"prefix": "when",
+		"body": [
+			"when ${1:signal} =>",
+			"\t$0"
+		],
+		"description": "keyword: when"
+	},
+
+
+	"IEEE Libraries": {
+		"prefix": "library ieee",
+		"body": [
+			"library ieee;",
+			"use std_logic_1164.all;",
+			"use numeric_std.all;",
+			"use math_real.all;"
+		],
+		"description": "<TODO>: declare common IEEE libraries"
+	},
+	"IEEE Libraries 2008": {
+		"prefix": "library ieee 2008",
+		"body": [
+			"library ieee;",
+			"text ieee.ieee_std_context;",
+			"use math_real.all;"
+		],
+		"description": "<TODO>: declare common IEEE libraries (vhdl 2008)"
+	},
+
+
+	"Component": {
+		"prefix":"component",
+		"body": [
+			"component ${1:entity} is",
+			"\tgeneric (",
+			"\t\t${2:generics}",
+			"\t);",
+			"\tport (",
+			"\t\t${3:clk   : in std_logic;}",
+			"\t\t${4:reset : in std_logic}",
+			"\t\t$0",
+			"\t);",
+			"end component;"
+		],
+		"description": "instantiation: component declaration"
 	},
 	"Entity": {
 	"prefix": "entity",
 		"body": [
 			"entity ${1:$TM_FILENAME_BASE} is",
-			"  port (${2:ports});",
-		    "end ${1};"
+			"\tgeneric (",
+			"\t\t${2:generics}",
+			"\t);",
+			"\tport (",
+			"\t\t${3:clk   : in std_logic;}",
+			"\t\t${4:reset : in std_logic}",
+			"\t\t$0",
+			"\t);",
+		    "end entity;"
 		],
-		"description": "entity"
+		"description": "instantiation: entity"
 	},
 	"Architecture": {
 		"prefix": "architecture",
 		"body": [
 			"architecture ${1:behav} of ${2:$TM_FILENAME_BASE} is",
 			"begin",
-			"end ${1};"
+			"end architecture;"
 		],
-		"description": "architecture"
+		"description": "instantiation: architecture"
+	},
+
+
+	"If": {
+		"prefix": "if",
+		"body": [
+			"if ${1:expression} then",
+			"\t$0",
+			"end if;"
+		],
+		"description": "block: if"
+	},
+	"If/Else": {
+		"prefix": "if/else",
+		"body": [
+			"if ${1:expression} then",
+			"\t${2}",
+			"else",
+			"\t$0",
+			"end if;"
+		],
+		"description": "block: if/else"
+	},
+	"If Generate": {
+		"prefix": "if_generate",
+		"body": [
+			"gen_${1:generateName} : if ${2:expression} generate",
+			"\t$0",
+			"end generate;"
+		],
+		"description": "block: if generate"
+	},
+	"If/Else Generate 2008": {
+		"prefix": "if/else_generate_2008",
+		"body": [
+			"gen_${1:generateName} : if ${2:expression} generate",
+			"\t\t${3}",
+			"\telse generate",
+			"\t\t$0",
+			"end generate;"
+		],
+		"description": "block: if/else generate (vhdl 2008)"
+	},
+	"For": {
+		"prefix": "for",
+		"body": [
+			"for ${1:i} in ${2:0} ${3|to,downto|} ${4} loop",
+			"\t$0",
+			"end loop;"
+		],
+		"description": "block: for generate"
+	},
+	"For Generate": {
+		"prefix": "for_generate",
+		"body": [
+			"gen_loop_${1:generateName} : for ${2:i} in ${3:0} ${4|to,downto|} ${5} generate",
+			"\t$0",
+			"end generate;"
+		],
+		"description": "block: for generate loop (vhdl 2008)"
+	},
+	"While": {
+		"prefix": "while",
+		"body": [
+			"while ${1:expression} loop",
+			"\t$0",
+			"end loop;"
+		],
+		"description": "block: while loop"
+	},
+	"Case": {
+		"prefix": "case",
+		"body": [
+			"case ${1:select} is",
+			"\twhen ${2:value} =>",
+			"\t\t${3}",
+			"\twhen others =>",
+			"\t\t$0",
+			"end case;"
+		],
+		"description": "block: case"
+	},
+	"Case Generate 2008": {
+		"prefix": "case_generate_2008",
+		"body": [
+			"gen_${1:generateName} : case ${1:select} generate",
+			"\twhen ${2:value} =>",
+			"\t\t${3}",
+			"\twhen others =>",
+			"\t\t$0",
+			"end generate;"
+		],
+		"description": "block: case generate (vhdl 2008)"
+	},
+	"Block": {
+		"prefix": "block",
+		"body": [
+			"blk_${1:blockName} : block",
+			"begin",
+			"\t$0",
+			"end block;"
+		],
+		"description": "block: block"
 	},
 	"Process": {
 		"prefix": "process",
 		"body": [
 			"process",
 			"begin",
+			"\t$0",
 			"end process;"
-		]
+		],
+		"description": "block: simple process"
+	},
+	"Async Process": {
+		"prefix": "process_asynchronous",
+		"body": [
+			"process (${1:clk}, ${2:reset})",
+			"begin",
+			"\tif ${2} = ${3|'1','0'|} then",
+			"\telsif rising_edge(${1}) then",
+			"\t\t$0",
+			"\tend if;",
+			"end process;"
+		],
+		"description": "block: asynchronous process"
+	},
+	"Clocked Process": {
+		"prefix": ["process_clocked"],
+		"body": [
+			"process (${1:clk})",
+			"begin",
+			"\tif rising_edge(${1}) then",
+			"\t\tif ${2:reset} = ${3|'1','0'|} then",
+			"\t\t\t$0",
+			"\t\telse",
+			"\t\t\t$0",
+			"\t\tend if;",
+			"\tend if;",
+			"end process;"
+		],
+		"description": "block: clocked process"
+	},
+	"Function": {
+		"prefix": "function",
+		"body": [
+			"function ${1:name} (${2:params}) return ${3:type} is",
+			"begin",
+			"\t$0",
+			"end function;"
+		],
+		"description": "block: function body"
 	},
 	"Procedure": {
 		"prefix": "procedure",
 		"body": [
 			"procedure ${1:name} (${2:params}) is",
 			"begin",
-			"end ${1};"
+			"\t$0",
+			"end procedure;"
 		],
-		"description": "procedure body"
+		"description": "block: procedure body"
 	},
 	"Package": {
 		"prefix": "package",
 		"body": [
 			"package ${1:name} is",
-			"end ${1};"
+			"end package;"
 		],
-		"description": "package declaration"
+		"description": "block: package declaration"
 	},
-	"PackageBody": {
-		"prefix": "package",
+	"Package Body": {
+		"prefix": "package_body",
 		"body": [
 			"package body ${1:name} is",
-			"end ${1};"
+			"end package;"
 		],
-		"description": "package body"
+		"description": "block: package body"
 	},
-	"Component": {
-		"prefix":"component",
-		"body": [
-		"component ${1:entity} is",
-		"	generic(",
-		"		${2:generics}",
-		"	);",
-		"	port(",
-		"		${3:ports}",
-		"	);",
-		"end component;"
-		],
-		"description": "component declaration"
+	"Natural Range": {
+		"prefix": "natural_range",
+		"body": [ "natural range<>" ],
+		"description": "block: natural range"
+	},
+
+
+	"Real": {
+		"prefix": "real",
+		"body": [ "real${1|, := ,;|}" ],
+		"description": "type: real"
+	},
+	"Integer": {
+		"prefix": "integer",
+		"body": [ "integer${1|, := ,;|}" ],
+		"description": "type: integer"
+	},
+	"Natural": {
+		"prefix": "natural",
+		"body": [ "natural${1|, := ,;|}" ],
+		"description": "type: natural"
+	},
+	"Positive": {
+		"prefix": "positive",
+		"body": [ "positive${1|, := ,;|}" ],
+		"description": "type: positive"
+	},
+	"Standard Logic": {
+		"prefix": ["std_logic", "sl"],
+		"body": [ "std_logic${1|, := ,;|}" ],
+		"description": "type: std_logic"
+	},
+	"Standard Logic Vector": {
+		"prefix": ["std_logic_vector", "slv"],
+		"body": [ "std_logic_vector(${1} ${2|downto,to|} ${3})${4|, := ,;|}" ],
+		"description": "type: std_logic_vector"
+	},
+	"Signed": {
+		"prefix": "signed",
+		"body": [ "signed(${1} ${2|downto,to|} ${3})${4|, := ,;|}" ],
+		"description": "type: signed"
+	},
+	"Unsigned": {
+		"prefix": "unsigned",
+		"body": [ "unsigned(${1} ${2|downto,to|} ${3})${4|,;|}" ],
+		"description": "type: unsigned"
 	}
 }
-
