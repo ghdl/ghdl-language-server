@@ -2,67 +2,147 @@
 	"Library": {
 		"prefix": "library",
 		"body": [ "library ${1:ieee};"],
-		"description": "keyword: library"
+		"description": "library declaration"
+	},
+	"Library TextIO": {
+		"prefix": "library_textio",
+		"body": [
+			"library std;",
+			"use std.textio.all;"
+		],
+		"description": "TextIO library declaration"
+	},
+	"IEEE Libraries": {
+		"prefix": "library_ieee",
+		"body": [
+			"library ieee;",
+			"use ieee.std_logic_1164.all;",
+			"use ieee.numeric_std.all;",
+			"use ieee.math_real.all;"
+		],
+		"description": "common IEEE libraries declaration"
+	},
+	"IEEE Libraries 2008": {
+		"prefix": "library_ieee_2008",
+		"body": [
+			"library ieee;",
+			"text ieee.ieee_std_context;",
+			"use ieee.math_real.all;"
+		],
+		"description": "common IEEE libraries declaration with 2008 standard context (vhdl 2008)"
 	},
 	"Use": {
 		"prefix": "use",
-		"body": [ "use ${1:ieee.std_logic_1164}.all;"],
-		"description": "keyword: use"
+		"body": [ "use ${1:lib.pkg}.all;"],
+		"description": "use clause"
 	},
-	"Context": {
-		"prefix": "context 2008",
-		"body": [ "context ${1:ieee}.${2:ieee_std_context};"],
-		"description": "keyword: context (vhdl 2008)"
+	"Use IEEE Package": {
+		"prefix": "use_ieee",
+		"body": [ "use ieee.${1|$std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex|}.all;"],
+		"description": "use clause IEEE standard package (std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex)"
+	},
+	"Context 2008": {
+		"prefix": "context_2008",
+		"body": [ "context ${1:lib.context};"],
+		"description": "context clause (vhdl 2008)"
+	},
+	"Context IEEE 2008": {
+		"prefix": "context_ieee_2008",
+		"body": [ "context ieee.${1|ieee_bit_context,ieee_std_context|};"],
+		"description": "context clause for IEEE standard contexts (ieee_bit_context,ieee_std_context) (vhdl 2008)"
 	},
 	"Others": {
 		"prefix": ["others"],
 		"body": ["(others => ${1:<value>})${2|,;|}"],
-		"description": "keyword: others"
-	},
-	"Elsif": {
-		"prefix": "elsif",
-		"body": [
-			"elsif ${1:expression} then",
-			"\t$0"
-		],
-		"description": "keyword: elsif"
-	},
-	"Elsif Generate 2008": {
-		"prefix": "elsif_generate_2008",
-		"body": [
-			"elsif ${1:expression} generate",
-			"\t${2}"
-		],
-		"description": "keyword: elsif generate (vhdl 2008)"
+		"description": "others keyword"
 	},
 	"When": {
 		"prefix": "when",
 		"body": [
-			"when ${1:signal} =>",
+			"when ${1:value} =>",
 			"\t$0"
 		],
-		"description": "keyword: when"
+		"description": "when statement"
 	},
-
-
-	"IEEE Libraries": {
-		"prefix": "library ieee",
+	"When Else": {
+		"prefix": "when_else",
 		"body": [
-			"library ieee;",
-			"use std_logic_1164.all;",
-			"use numeric_std.all;",
-			"use math_real.all;"
+			"${1:signal} <= ${2:first_value} when ${3:expression}",
+			"\telse ${4:final_value};"
 		],
-		"description": "<TODO>: declare common IEEE libraries"
+		"description": "concurrent when else statement"
 	},
-	"IEEE Libraries 2008": {
-		"prefix": "library ieee 2008",
+	"With Select": {
+		"prefix": ["select", "with_select"],
 		"body": [
-			"library ieee;",
-			"text ieee.ieee_std_context;",
-			"use math_real.all;"
+			"with ${1:select} select",
+			"\t${2:signal} <= ${3:first_value} when ${4:select_value},",
+			"\t\t${5:last_value} when others;"
 		],
-		"description": "<TODO>: declare common IEEE libraries (vhdl 2008)"
+		"description": "concurrent with select statement"
+	},
+	"Alias": {
+		"prefix": "alias",
+		"body": [ "alias ${1:alias_name} : ${2:alias_type} is ${3:object_name};" ],
+		"description": "alias declaration"
+	},
+	"Alias External Name 2008": {
+		"prefix": "alias_external_name_2008",
+		"body": [
+			"alias ${1:name} is",
+			"\t<< ${2|signal,variable,constant|} ${3:path.to.signal.name} : ${4:type} >>;"
+		],
+		"description": "hierarchical signal declaration (vhdl 2008). NOTE: for standard types (SLV, unsighed, signed, etc.), no range needs to be specified"
+	},
+	"Attribute": {
+		"prefix": ["attribute", "'"],
+		"body": [ "'${1|high,low,left,right,range,reverse_range,length,event|}" ],
+		"description": "synthesizable attributes (high,low,left,right,range,reverse_range,length,event)"
+	},
+	"Array Type": {
+		"prefix": "array",
+		"body": [ "type ${1:type_name} is array (${2:natural range<>}) of ${3:element_type};" ],
+		"description": "synthesizable attributes (high,low,left,right,range,reverse_range,length,event)"
+	},
+	"Assert Statement": {
+		"prefix": "assert",
+		"body": [
+			"assert ${1:expression}",
+			"\treport \"${2:string}\"",
+			"\tseverity ${3|note,warning,error,failure|}"
+		 ],
+		"description": "assert statement"
+	},
+	"Constant": {
+		"prefix": "constant",
+		"body": [ "constant ${1:name} : ${2:type} := ${3:default_value};" ],
+		"description": "constant declaration"
+	},
+	"File": {
+		"prefix": "file",
+		"body": [ "file ${1:name} : text is ${2|in,out|} \"${3:file_name}\";" ],
+		"description": "constant declaration"
+	},
+	// TODO: somehow incorporate standard types
+	"Signal": {
+		"prefix": "signal",
+		"body": [ "signal ${1:name} : ${2:type} := ${3:default_value};" ],
+		"description": "signal declaration"
+	},
+	"Variable": {
+		"prefix": "variable",
+		"body": [ "variable ${1:name} : ${2:type} := ${3:default_value};" ],
+		"description": "variable declaration"
+	},
+	// TODO: should record just insert cursor instead of aiding user in filling in signals
+	"Record Type": {
+		"prefix": "record",
+		"body": [
+			"type ${1:name} is record",
+			"\t${2:signal_name} : ${3:type};",
+			"end record;"
+		],
+		"description": "record declaration"
 	},
 
 
@@ -82,6 +162,7 @@
 		],
 		"description": "instantiation: component declaration"
 	},
+	// TODO: configuration
 	"Entity": {
 	"prefix": "entity",
 		"body": [
@@ -107,8 +188,19 @@
 		],
 		"description": "instantiation: architecture"
 	},
+	"Block": {
+		"prefix": "block",
+		"body": [
+			"blk_${1:blockName} : block ${2|,optional_guard_expression|}",
+			"begin",
+			"\t$0",
+			"end block;"
+		],
+		"description": "block: block"
+	},
 
 
+	// TODO: package generic vhdl 2008
 	"If": {
 		"prefix": "if",
 		"body": [
@@ -128,6 +220,14 @@
 			"end if;"
 		],
 		"description": "block: if/else"
+	},
+	"Elsif": {
+		"prefix": "elsif",
+		"body": [
+			"elsif ${1:expression} then",
+			"\t$0"
+		],
+		"description": "keyword: elsif"
 	},
 	"If Generate": {
 		"prefix": "if_generate",
@@ -149,10 +249,18 @@
 		],
 		"description": "block: if/else generate (vhdl 2008)"
 	},
+	"Elsif Generate 2008": {
+		"prefix": "elsif_generate_2008",
+		"body": [
+			"elsif ${1:expression} generate",
+			"\t${2}"
+		],
+		"description": "keyword: elsif generate (vhdl 2008)"
+	},
 	"For": {
 		"prefix": "for",
 		"body": [
-			"for ${1:i} in ${2:0} ${3|to,downto|} ${4} loop",
+			"${1|,${2:optional_label}|}for ${3:i} in ${4|${5:user_range},$5 to $6, $5 downto $6|} loop",
 			"\t$0",
 			"end loop;"
 		],
@@ -161,7 +269,7 @@
 	"For Generate": {
 		"prefix": "for_generate",
 		"body": [
-			"gen_loop_${1:generateName} : for ${2:i} in ${3:0} ${4|to,downto|} ${5} generate",
+			"gen_loop_${1:generateName} : for ${2:i} in ${3|${4:user_range},$4 to $5,$4 downto $5|} generate",
 			"\t$0",
 			"end generate;"
 		],
@@ -183,7 +291,7 @@
 			"\twhen ${2:value} =>",
 			"\t\t${3}",
 			"\twhen others =>",
-			"\t\t$0",
+			"\t\t${4:null}",
 			"end case;"
 		],
 		"description": "block: case"
@@ -195,32 +303,32 @@
 			"\twhen ${2:value} =>",
 			"\t\t${3}",
 			"\twhen others =>",
-			"\t\t$0",
+			"\t\t${4:null}",
 			"end generate;"
 		],
 		"description": "block: case generate (vhdl 2008)"
 	},
-	"Block": {
-		"prefix": "block",
+	"Process Combinatorial": {
+		"prefix": "process_combinatorial",
 		"body": [
-			"blk_${1:blockName} : block",
-			"begin",
-			"\t$0",
-			"end block;"
-		],
-		"description": "block: block"
-	},
-	"Process": {
-		"prefix": "process",
-		"body": [
-			"process",
+			"process ${1|,(${2:sensitvity_list})|}",
 			"begin",
 			"\t$0",
 			"end process;"
 		],
-		"description": "block: simple process"
+		"description": "block: combinatorial process"
 	},
-	"Async Process": {
+	"Process Combinatorial 2008": {
+		"prefix": "process_combinatorial_2008",
+		"body": [
+			"process (all)",
+			"begin",
+			"\t$0",
+			"end process;"
+		],
+		"description": "block: combinatorial process (vhdl 2008)"
+	},
+	"Process Asynchronous": {
 		"prefix": "process_asynchronous",
 		"body": [
 			"process (${1:clk}, ${2:reset})",
@@ -233,7 +341,7 @@
 		],
 		"description": "block: asynchronous process"
 	},
-	"Clocked Process": {
+	"Process Clocked": {
 		"prefix": ["process_clocked"],
 		"body": [
 			"process (${1:clk})",
@@ -317,10 +425,20 @@
 		"body": [ "std_logic${1|, := ,;|}" ],
 		"description": "type: std_logic"
 	},
+	"Standard ULogic": {
+		"prefix": ["std_ulogic", "sul"],
+		"body": [ "std_ulogic${1|, := ,;|}" ],
+		"description": "type: std_ulogic"
+	},
 	"Standard Logic Vector": {
 		"prefix": ["std_logic_vector", "slv"],
 		"body": [ "std_logic_vector(${1} ${2|downto,to|} ${3})${4|, := ,;|}" ],
 		"description": "type: std_logic_vector"
+	},
+	"Standard ULogic Vector": {
+		"prefix": ["std_ulogic_vector", "sulv"],
+		"body": [ "std_ulogic_vector(${1} ${2|downto,to|} ${3})${4|, := ,;|}" ],
+		"description": "type: std_ulogic_vector"
 	},
 	"Signed": {
 		"prefix": "signed",
