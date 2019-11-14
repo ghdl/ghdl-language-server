@@ -3,6 +3,11 @@
 	// TODO: configuration (might be too annoying)
 	// ? alphabetize
 	// TODO: package generic vhdl 2008
+	// TODO: open VSC enhancement to allow for user selections ($x) within or (${1||}) selection
+	// TODO: open VSC bug about or selection for doing nothing still requires the editor insert a space or character
+	// TODO: add notes/examples to descriptions
+	// TODO: figure out how to column align with snippets such that when new lines are made for things like when/else
+	//       or with select, cursor for next line is aligned with <=
 
 	"Library": {
 		"prefix": "library",
@@ -78,10 +83,7 @@
 	// FIXME: this needs to allow second option with space/;
 	"Others": {
 		"prefix": ["others"],
-		"body": [
-			"(others => ${1:<value>})${2| ,;|}",
-			"$0"
-		],
+		"body": [ "(others => ${1:<value>})${2| ,;|}$0" ],
 		"description": "others keyword"
 	},
 	"When": {
@@ -92,7 +94,6 @@
 		],
 		"description": "when statement"
 	},
-	// TODO: figure out how to column align when else after <= column
 	"When Else": {
 		"prefix": "when_else",
 		"body": [
@@ -102,7 +103,6 @@
 		],
 		"description": "concurrent when else statement"
 	},
-	// TODO: figure out how to column align with select after <= column
 	"With Select": {
 		"prefix": ["select", "with_select"],
 		"body": [
@@ -113,7 +113,6 @@
 		],
 		"description": "concurrent with select statement"
 	},
-	// TODO: add example
 	"Alias": {
 		"prefix": "alias",
 		"body": [
@@ -122,7 +121,6 @@
 		],
 		"description": "alias declaration"
 	},
-	// TODO: add example
 	// ? are signal/variable/constant all valid for external names
 	"Alias External Name 2008": {
 		"prefix": "alias_external_name_2008",
@@ -132,12 +130,6 @@
 			"$0"
 		],
 		"description": "hierarchical signal declaration (vhdl 2008). NOTE: for standard types (SLV, unsighed, signed, etc.), no range needs to be specified"
-	},
-	// ! cannot use ' since it auto-closes
-	"Attribute": {
-		"prefix": ["attribute", "'"],
-		"body": [ "'${1|high,low,left,right,range,reverse_range,length,event|}$0" ],
-		"description": "synthesizable attributes (high,low,left,right,range,reverse_range,length,event)"
 	},
 	"Array Type": {
 		"prefix": "array",
@@ -173,7 +165,6 @@
 		],
 		"description": "constant declaration"
 	},
-	// TODO: report VSC bug that snippets are unavailable to select while filling out a snippet
 	"Signal": {
 		"prefix": "signal",
 		"body": [
@@ -190,7 +181,6 @@
 		],
 		"description": "variable declaration"
 	},
-	// TODO: should record just insert cursor instead of aiding user in filling in signals
 	"Record Type": {
 		"prefix": "record",
 		"body": [
@@ -219,7 +209,6 @@
 		],
 		"description": "component declaration"
 	},
-	// TODO: fill in notes
 	"Entity": {
 	"prefix": "entity",
 		"body": [
@@ -246,7 +235,6 @@
 		],
 		"description": "architecture declaration"
 	},
-	// TODO: test fix to allow no guard expression
 	"Block": {
 		"prefix": "block",
 		"body": [
@@ -282,10 +270,8 @@
 			"else",
 			"\t$0"
 		],
-		"description": "if/else block"
+		"description": "else block"
 	},
-	// ? should these be changed instead to generate_if, generate_for, etc so the snippet
-	// suggestions aren't overwhelming when typing if
 	"If Generate": {
 		"prefix": "generate_if",
 		"body": [
@@ -311,7 +297,6 @@
 		],
 		"description": "else generate instantiation (vhdl 2008)"
 	},
-	// TODO: open VSC enhancement to allow for user selections ($x) within or (${1||}) selection
 	"For": {
 		"prefix": "for",
 		"body": [
@@ -434,7 +419,7 @@
 	"Package": {
 		"prefix": "package",
 		"body": [
-			"package ${1:name} is",
+			"package ${1:$TM_FILENAME_BASE} is",
 			"\t$0",
 			"end package;"
 		],
@@ -443,7 +428,7 @@
 	"Package Body": {
 		"prefix": "package_body",
 		"body": [
-			"package body ${1:name} is",
+			"package body ${1:$TM_FILENAME_BASE} is",
 			"\t$0",
 			"end package;"
 		],
@@ -456,28 +441,6 @@
 	},
 
 
-	// TODO: bring these back once we can have or selection without a space
-	// TODO: open VSC bug about or selection for doing nothing still requires the editor insert a space or character
-	//"Real": {
-	//	"prefix": "real",
-	//	"body": [ "real${1|, := ,;|}" ],
-	//	"description": "type: real"
-	//},
-	//"Integer": {
-	//	"prefix": "integer",
-	//	"body": [ "integer${1|, := ,;|}" ],
-	//	"description": "type: integer"
-	//},
-	//"Natural": {
-	//	"prefix": "natural",
-	//	"body": [ "natural${1|, := ,;|}" ],
-	//	"description": "type: natural"
-	//},
-	//"Positive": {
-	//	"prefix": "positive",
-	//	"body": [ "positive${1|, := ,;|}" ],
-	//	"description": "type: positive"
-	//},
 	"Standard Logic": {
 		"prefix": ["std_logic", "sl"],
 		"body": [ "std_logic${1| := ,;|}$0" ],
