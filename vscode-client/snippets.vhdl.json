@@ -1,14 +1,23 @@
 {
+	// TODO: add examples to anything that isn't obvious
+	// TODO: configuration (might be too annoying)
+	// ? alphabetize
+	// TODO: package generic vhdl 2008
+
 	"Library": {
 		"prefix": "library",
-		"body": [ "library ${1:ieee};"],
+		"body": [
+			"library ${1:ieee};",
+			"$0"
+		],
 		"description": "library declaration"
 	},
 	"Library TextIO": {
 		"prefix": "library_textio",
 		"body": [
 			"library std;",
-			"use std.textio.all;"
+			"use std.textio.all;",
+			"$0"
 		],
 		"description": "TextIO library declaration"
 	},
@@ -18,7 +27,8 @@
 			"library ieee;",
 			"use ieee.std_logic_1164.all;",
 			"use ieee.numeric_std.all;",
-			"use ieee.math_real.all;"
+			"use ieee.math_real.all;",
+			"$0"
 		],
 		"description": "common IEEE libraries declaration"
 	},
@@ -26,82 +36,115 @@
 		"prefix": "library_ieee_2008",
 		"body": [
 			"library ieee;",
-			"text ieee.ieee_std_context;",
-			"use ieee.math_real.all;"
+			"context ieee.ieee_std_context;",
+			"use ieee.math_real.all;",
+			"$0"
 		],
 		"description": "common IEEE libraries declaration with 2008 standard context (vhdl 2008)"
 	},
 	"Use": {
 		"prefix": "use",
-		"body": [ "use ${1:lib.pkg}.all;"],
+		"body": [
+			"use ${1:lib.pkg}.all;",
+			"$0"
+		],
 		"description": "use clause"
 	},
+	// TODO: move this up into library_ieee inst and give user option to include any of these
 	"Use IEEE Package": {
 		"prefix": "use_ieee",
-		"body": [ "use ieee.${1|$std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex|}.all;"],
+		"body": [
+			"use ieee.${1|std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex|}.all;",
+			"$0"
+		],
 		"description": "use clause IEEE standard package (std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex)"
 	},
 	"Context 2008": {
 		"prefix": "context_2008",
-		"body": [ "context ${1:lib.context};"],
+		"body": [
+			"context ${1:lib.context_name};",
+			"$0"
+		],
 		"description": "context clause (vhdl 2008)"
 	},
 	"Context IEEE 2008": {
 		"prefix": "context_ieee_2008",
-		"body": [ "context ieee.${1|ieee_bit_context,ieee_std_context|};"],
+		"body": [
+			"context ieee.${1|ieee_bit_context,ieee_std_context|};",
+			"$0"
+		],
 		"description": "context clause for IEEE standard contexts (ieee_bit_context,ieee_std_context) (vhdl 2008)"
 	},
+	// FIXME: this needs to allow second option with space/;
 	"Others": {
 		"prefix": ["others"],
-		"body": ["(others => ${1:<value>})${2|,;|}"],
+		"body": [
+			"(others => ${1:<value>})${2| ,;|}",
+			"$0"
+		],
 		"description": "others keyword"
 	},
 	"When": {
 		"prefix": "when",
 		"body": [
-			"when ${1:value} =>",
+			"when ${1:others} =>",
 			"\t$0"
 		],
 		"description": "when statement"
 	},
+	// TODO: figure out how to column align when else after <= column
 	"When Else": {
 		"prefix": "when_else",
 		"body": [
 			"${1:signal} <= ${2:first_value} when ${3:expression}",
-			"\telse ${4:final_value};"
+			"\telse ${4:final_value};",
+			"$0"
 		],
 		"description": "concurrent when else statement"
 	},
+	// TODO: figure out how to column align with select after <= column
 	"With Select": {
 		"prefix": ["select", "with_select"],
 		"body": [
 			"with ${1:select} select",
 			"\t${2:signal} <= ${3:first_value} when ${4:select_value},",
-			"\t\t${5:last_value} when others;"
+			"\t\t${5:last_value} when others;",
+			"$0"
 		],
 		"description": "concurrent with select statement"
 	},
+	// TODO: add example
 	"Alias": {
 		"prefix": "alias",
-		"body": [ "alias ${1:alias_name} : ${2:alias_type} is ${3:object_name};" ],
+		"body": [
+			"alias ${1:alias_name} : ${2:alias_type} is ${3:object_name};",
+			"$0"
+		],
 		"description": "alias declaration"
 	},
+	// TODO: add example
+	// ? are signal/variable/constant all valid for external names
 	"Alias External Name 2008": {
 		"prefix": "alias_external_name_2008",
 		"body": [
 			"alias ${1:name} is",
-			"\t<< ${2|signal,variable,constant|} ${3:path.to.signal.name} : ${4:type} >>;"
+			"\t<< ${2|signal,variable,constant|} ${3:path.to.signal.name} : ${4:type} >>;",
+			"$0"
 		],
 		"description": "hierarchical signal declaration (vhdl 2008). NOTE: for standard types (SLV, unsighed, signed, etc.), no range needs to be specified"
 	},
+	// ! cannot use ' since it auto-closes
 	"Attribute": {
 		"prefix": ["attribute", "'"],
-		"body": [ "'${1|high,low,left,right,range,reverse_range,length,event|}" ],
+		"body": [ "'${1|high,low,left,right,range,reverse_range,length,event|}$0" ],
 		"description": "synthesizable attributes (high,low,left,right,range,reverse_range,length,event)"
 	},
 	"Array Type": {
 		"prefix": "array",
-		"body": [ "type ${1:type_name} is array (${2:natural range<>}) of ${3:element_type};" ],
+		"body": [
+			"type ${1:type_name} is array (${2:natural range<>}) of ${3:element_type};",
+			"$0"
+		],
 		"description": "synthesizable attributes (high,low,left,right,range,reverse_range,length,event)"
 	},
 	"Assert Statement": {
@@ -109,29 +152,42 @@
 		"body": [
 			"assert ${1:expression}",
 			"\treport \"${2:string}\"",
-			"\tseverity ${3|note,warning,error,failure|}"
+			"\tseverity ${3|note,warning,error,failure|};",
+			"$0"
 		 ],
 		"description": "assert statement"
 	},
 	"Constant": {
 		"prefix": "constant",
-		"body": [ "constant ${1:name} : ${2:type} := ${3:default_value};" ],
+		"body": [
+			"constant ${1:name} : ${2:type} := ${3:default_value};",
+			"$0"
+		],
 		"description": "constant declaration"
 	},
 	"File": {
 		"prefix": "file",
-		"body": [ "file ${1:name} : text is ${2|in,out|} \"${3:file_name}\";" ],
+		"body": [
+			"file ${1:name} : text is ${2|in,out|} \"${3:file_name}\";",
+			"$0"
+		],
 		"description": "constant declaration"
 	},
-	// TODO: somehow incorporate standard types
+	// TODO: report VSC bug that snippets are unavailable to select while filling out a snippet
 	"Signal": {
 		"prefix": "signal",
-		"body": [ "signal ${1:name} : ${2:type} := ${3:default_value};" ],
+		"body": [
+			"signal ${1:name} : ${2:type} := ${3:default_value};",
+			"$0"
+		],
 		"description": "signal declaration"
 	},
 	"Variable": {
 		"prefix": "variable",
-		"body": [ "variable ${1:name} : ${2:type} := ${3:default_value};" ],
+		"body": [
+			"variable ${1:name} : ${2:type} := ${3:default_value};",
+			"$0"
+		],
 		"description": "variable declaration"
 	},
 	// TODO: should record just insert cursor instead of aiding user in filling in signals
@@ -140,6 +196,7 @@
 		"body": [
 			"type ${1:name} is record",
 			"\t${2:signal_name} : ${3:type};",
+			"\t$0",
 			"end record;"
 		],
 		"description": "record declaration"
@@ -149,20 +206,20 @@
 	"Component": {
 		"prefix":"component",
 		"body": [
-			"component ${1:entity} is",
+			"component ${1:comp_name} is",
 			"\tgeneric (",
 			"\t\t${2:generics}",
 			"\t);",
 			"\tport (",
 			"\t\t${3:clk   : in std_logic;}",
-			"\t\t${4:reset : in std_logic}",
+			"\t\t${4:reset : in std_logic;}",
 			"\t\t$0",
 			"\t);",
 			"end component;"
 		],
-		"description": "instantiation: component declaration"
+		"description": "component declaration"
 	},
-	// TODO: configuration
+	// TODO: fill in notes
 	"Entity": {
 	"prefix": "entity",
 		"body": [
@@ -172,35 +229,36 @@
 			"\t);",
 			"\tport (",
 			"\t\t${3:clk   : in std_logic;}",
-			"\t\t${4:reset : in std_logic}",
+			"\t\t${4:reset : in std_logic;}",
 			"\t\t$0",
 			"\t);",
-		    "end entity;"
+			"end entity;"
 		],
-		"description": "instantiation: entity"
+		"description": "entity declaration"
 	},
 	"Architecture": {
 		"prefix": "architecture",
 		"body": [
 			"architecture ${1:behav} of ${2:$TM_FILENAME_BASE} is",
+			"\t$0",
 			"begin",
 			"end architecture;"
 		],
-		"description": "instantiation: architecture"
+		"description": "architecture declaration"
 	},
+	// TODO: test fix to allow no guard expression
 	"Block": {
 		"prefix": "block",
 		"body": [
-			"blk_${1:blockName} : block ${2|,optional_guard_expression|}",
+			"blk_${1:blockName} : block ${2| ,optional_guard_expression|}",
 			"begin",
 			"\t$0",
 			"end block;"
 		],
-		"description": "block: block"
+		"description": "block instantiation"
 	},
 
 
-	// TODO: package generic vhdl 2008
 	"If": {
 		"prefix": "if",
 		"body": [
@@ -208,18 +266,7 @@
 			"\t$0",
 			"end if;"
 		],
-		"description": "block: if"
-	},
-	"If/Else": {
-		"prefix": "if/else",
-		"body": [
-			"if ${1:expression} then",
-			"\t${2}",
-			"else",
-			"\t$0",
-			"end if;"
-		],
-		"description": "block: if/else"
+		"description": "if block"
 	},
 	"Elsif": {
 		"prefix": "elsif",
@@ -227,53 +274,61 @@
 			"elsif ${1:expression} then",
 			"\t$0"
 		],
-		"description": "keyword: elsif"
+		"description": "elsif block"
 	},
+	"Else": {
+		"prefix": "else",
+		"body": [
+			"else",
+			"\t$0"
+		],
+		"description": "if/else block"
+	},
+	// ? should these be changed instead to generate_if, generate_for, etc so the snippet
+	// suggestions aren't overwhelming when typing if
 	"If Generate": {
-		"prefix": "if_generate",
+		"prefix": "generate_if",
 		"body": [
 			"gen_${1:generateName} : if ${2:expression} generate",
 			"\t$0",
 			"end generate;"
 		],
-		"description": "block: if generate"
-	},
-	"If/Else Generate 2008": {
-		"prefix": "if/else_generate_2008",
-		"body": [
-			"gen_${1:generateName} : if ${2:expression} generate",
-			"\t\t${3}",
-			"\telse generate",
-			"\t\t$0",
-			"end generate;"
-		],
-		"description": "block: if/else generate (vhdl 2008)"
+		"description": "if generate instantiation"
 	},
 	"Elsif Generate 2008": {
-		"prefix": "elsif_generate_2008",
+		"prefix": "generate_elsif_2008",
 		"body": [
 			"elsif ${1:expression} generate",
-			"\t${2}"
+			"\t$0"
 		],
-		"description": "keyword: elsif generate (vhdl 2008)"
+		"description": "elsif generate instantiation (vhdl 2008)"
 	},
+	"Else Generate 2008": {
+		"prefix": "generate_else_2008",
+		"body": [
+			"\telse generate",
+			"\t\t$0"
+		],
+		"description": "else generate instantiation (vhdl 2008)"
+	},
+	// TODO: open VSC enhancement to allow for user selections ($x) within or (${1||}) selection
 	"For": {
 		"prefix": "for",
 		"body": [
-			"${1|,${2:optional_label}|}for ${3:i} in ${4|${5:user_range},$5 to $6, $5 downto $6|} loop",
+			"for ${1:i} in ${2:range} loop",
 			"\t$0",
 			"end loop;"
 		],
-		"description": "block: for generate"
+		"description": "for loop block"
 	},
 	"For Generate": {
-		"prefix": "for_generate",
+		"prefix": "generate_for",
 		"body": [
-			"gen_loop_${1:generateName} : for ${2:i} in ${3|${4:user_range},$4 to $5,$4 downto $5|} generate",
+			"gen_loop_${1:generateName} : for ${2:i} in ${3:range} generate",
 			"\t$0",
 			"end generate;"
 		],
-		"description": "block: for generate loop (vhdl 2008)"
+		"description": "for generate loop instantiation (vhdl 2008)"
 	},
 	"While": {
 		"prefix": "while",
@@ -282,41 +337,39 @@
 			"\t$0",
 			"end loop;"
 		],
-		"description": "block: while loop"
+		"description": "while loop block"
 	},
 	"Case": {
 		"prefix": "case",
 		"body": [
 			"case ${1:select} is",
-			"\twhen ${2:value} =>",
-			"\t\t${3}",
-			"\twhen others =>",
-			"\t\t${4:null}",
+			"\twhen ${2:others} =>",
+			"\t\t${3:null;}",
+			"\t$0",
 			"end case;"
 		],
-		"description": "block: case"
+		"description": "case block"
 	},
 	"Case Generate 2008": {
-		"prefix": "case_generate_2008",
+		"prefix": "generate_case_2008",
 		"body": [
 			"gen_${1:generateName} : case ${1:select} generate",
-			"\twhen ${2:value} =>",
-			"\t\t${3}",
-			"\twhen others =>",
-			"\t\t${4:null}",
+			"\twhen ${2:others} =>",
+			"\t\t${3:null;}",
+			"\t$0",
 			"end generate;"
 		],
-		"description": "block: case generate (vhdl 2008)"
+		"description": "case generate instantiation (vhdl 2008)"
 	},
 	"Process Combinatorial": {
 		"prefix": "process_combinatorial",
 		"body": [
-			"process ${1|,(${2:sensitvity_list})|}",
+			"process (${1:sensitivity_list})",
 			"begin",
 			"\t$0",
 			"end process;"
 		],
-		"description": "block: combinatorial process"
+		"description": "combinatorial process block"
 	},
 	"Process Combinatorial 2008": {
 		"prefix": "process_combinatorial_2008",
@@ -326,36 +379,37 @@
 			"\t$0",
 			"end process;"
 		],
-		"description": "block: combinatorial process (vhdl 2008)"
+		"description": "combinatorial process block (vhdl 2008)"
 	},
 	"Process Asynchronous": {
 		"prefix": "process_asynchronous",
 		"body": [
 			"process (${1:clk}, ${2:reset})",
 			"begin",
-			"\tif ${2} = ${3|'1','0'|} then",
-			"\telsif rising_edge(${1}) then",
+			"\tif $2 = ${3|'1','0'|} then",
+			"\t\t$4",
+			"\telsif rising_edge($1) then",
 			"\t\t$0",
 			"\tend if;",
 			"end process;"
 		],
-		"description": "block: asynchronous process"
+		"description": "asynchronous process block"
 	},
 	"Process Clocked": {
 		"prefix": ["process_clocked"],
 		"body": [
 			"process (${1:clk})",
 			"begin",
-			"\tif rising_edge(${1}) then",
+			"\tif rising_edge($1) then",
 			"\t\tif ${2:reset} = ${3|'1','0'|} then",
-			"\t\t\t$0",
+			"\t\t\t$4",
 			"\t\telse",
 			"\t\t\t$0",
 			"\t\tend if;",
 			"\tend if;",
 			"end process;"
 		],
-		"description": "block: clocked process"
+		"description": "clocked process block"
 	},
 	"Function": {
 		"prefix": "function",
@@ -365,7 +419,7 @@
 			"\t$0",
 			"end function;"
 		],
-		"description": "block: function body"
+		"description": "function body declaration"
 	},
 	"Procedure": {
 		"prefix": "procedure",
@@ -375,79 +429,88 @@
 			"\t$0",
 			"end procedure;"
 		],
-		"description": "block: procedure body"
+		"description": "procedure body declaration"
 	},
 	"Package": {
 		"prefix": "package",
 		"body": [
 			"package ${1:name} is",
+			"\t$0",
 			"end package;"
 		],
-		"description": "block: package declaration"
+		"description": "package declaration"
 	},
 	"Package Body": {
 		"prefix": "package_body",
 		"body": [
 			"package body ${1:name} is",
+			"\t$0",
 			"end package;"
 		],
-		"description": "block: package body"
+		"description": "package body declaration"
 	},
 	"Natural Range": {
 		"prefix": "natural_range",
 		"body": [ "natural range<>" ],
-		"description": "block: natural range"
+		"description": "natural range statement"
 	},
 
 
-	"Real": {
-		"prefix": "real",
-		"body": [ "real${1|, := ,;|}" ],
-		"description": "type: real"
-	},
-	"Integer": {
-		"prefix": "integer",
-		"body": [ "integer${1|, := ,;|}" ],
-		"description": "type: integer"
-	},
-	"Natural": {
-		"prefix": "natural",
-		"body": [ "natural${1|, := ,;|}" ],
-		"description": "type: natural"
-	},
-	"Positive": {
-		"prefix": "positive",
-		"body": [ "positive${1|, := ,;|}" ],
-		"description": "type: positive"
-	},
+	// TODO: bring these back once we can have or selection without a space
+	// TODO: open VSC bug about or selection for doing nothing still requires the editor insert a space or character
+	//"Real": {
+	//	"prefix": "real",
+	//	"body": [ "real${1|, := ,;|}" ],
+	//	"description": "type: real"
+	//},
+	//"Integer": {
+	//	"prefix": "integer",
+	//	"body": [ "integer${1|, := ,;|}" ],
+	//	"description": "type: integer"
+	//},
+	//"Natural": {
+	//	"prefix": "natural",
+	//	"body": [ "natural${1|, := ,;|}" ],
+	//	"description": "type: natural"
+	//},
+	//"Positive": {
+	//	"prefix": "positive",
+	//	"body": [ "positive${1|, := ,;|}" ],
+	//	"description": "type: positive"
+	//},
 	"Standard Logic": {
 		"prefix": ["std_logic", "sl"],
-		"body": [ "std_logic${1|, := ,;|}" ],
+		"body": [ "std_logic${1| := ,;|}$0" ],
+		"description": "type: std_logic"
+	},
+	"Standard Logic Type": {
+		"prefix": ["std_logic", "sl"],
+		"body": [ "std_logic${1| := ,;|}$0" ],
 		"description": "type: std_logic"
 	},
 	"Standard ULogic": {
 		"prefix": ["std_ulogic", "sul"],
-		"body": [ "std_ulogic${1|, := ,;|}" ],
+		"body": [ "std_ulogic${1| := ,;|}$0" ],
 		"description": "type: std_ulogic"
 	},
 	"Standard Logic Vector": {
 		"prefix": ["std_logic_vector", "slv"],
-		"body": [ "std_logic_vector(${1} ${2|downto,to|} ${3})${4|, := ,;|}" ],
+		"body": [ "std_logic_vector($1 ${2|downto,to|} $3)${4| := ,;|}$0" ],
 		"description": "type: std_logic_vector"
 	},
 	"Standard ULogic Vector": {
 		"prefix": ["std_ulogic_vector", "sulv"],
-		"body": [ "std_ulogic_vector(${1} ${2|downto,to|} ${3})${4|, := ,;|}" ],
+		"body": [ "std_ulogic_vector($1 ${2|downto,to|} $3)${4| := ,;|}$0" ],
 		"description": "type: std_ulogic_vector"
 	},
 	"Signed": {
 		"prefix": "signed",
-		"body": [ "signed(${1} ${2|downto,to|} ${3})${4|, := ,;|}" ],
+		"body": [ "signed($1 ${2|downto,to|} $3)${4| := ,;|}$0" ],
 		"description": "type: signed"
 	},
 	"Unsigned": {
 		"prefix": "unsigned",
-		"body": [ "unsigned(${1} ${2|downto,to|} ${3})${4|,;|}" ],
+		"body": [ "unsigned(${1} ${2|downto,to|} ${3})${4| := ,;|}$0" ],
 		"description": "type: unsigned"
 	}
 }
