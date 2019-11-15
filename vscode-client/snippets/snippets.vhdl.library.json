@@ -68,5 +68,5 @@
 			"$0"
 		],
 		"description": "context clause for IEEE standard contexts (ieee_bit_context,ieee_std_context) (vhdl 2008)"
-	},
+	}
 }

@@ -30,16 +30,6 @@
 		],
 		"description": "synthesizable attributes (high,low,left,right,range,reverse_range,length,event)"
 	},
-	"Assert": {
-		"prefix": "assert",
-		"body": [
-			"assert ${1:expression}",
-			"\treport \"${2:string}\"",
-			"\tseverity ${3|note,warning,error,failure|};",
-			"$0"
-		 ],
-		"description": "assert declaration"
-	},
 	"Constant": {
 		"prefix": "constant",
 		"body": [
@@ -78,7 +68,7 @@
 		],
 		"description": "procedure body declaration"
 	},
-	"Record Type": {
+	"Record": {
 		"prefix": "record",
 		"body": [
 			"type ${1:name} is record",
@@ -125,33 +115,6 @@
 		"prefix": "unsigned",
 		"body": [ "unsigned(${1} ${2|downto,to|} ${3})${4| := ,;|}$0" ],
 		"description": "unsigned declaration"
-	},
-	"When": {
-		"prefix": "when",
-		"body": [
-			"when ${1:others} =>",
-			"\t$0"
-		],
-		"description": "when declaration"
-	},
-	"When Else": {
-		"prefix": "when_else",
-		"body": [
-			"${1:signal} <= ${2:first_value} when ${3:expression}",
-			"\telse ${4:final_value};",
-			"$0"
-		],
-		"description": "concurrent when else declaration"
-	},
-	"With Select": {
-		"prefix": ["select", "with_select"],
-		"body": [
-			"with ${1:select} select",
-			"\t${2:signal} <= ${3:first_value} when ${4:select_value},",
-			"\t\t${5:last_value} when others;",
-			"$0"
-		],
-		"description": "concurrent with select declaration"
 	},
 	"Variable": {
 		"prefix": "variable",

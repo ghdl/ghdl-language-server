@@ -1,8 +1,18 @@
 {
+	"Assert": {
+		"prefix": "assert",
+		"body": [
+			"assert ${1:expression}",
+			"\treport \"${2:string}\"",
+			"\tseverity ${3|note,warning,error,failure|};",
+			"$0"
+		 ],
+		"description": "assert declaration"
+	},
 	"Case": {
 		"prefix": "case",
 		"body": [
-			"case ${1:select} is",
+			"case ${1:sel} is",
 			"\twhen ${2:others} =>",
 			"\t\t${3:null;}",
 			"\t$0",
@@ -106,6 +116,23 @@
 		],
 		"description": "combinatorial process block (vhdl 2008)"
 	},
+	"When": {
+		"prefix": "when",
+		"body": [
+			"when ${1:others} =>",
+			"\t$0"
+		],
+		"description": "when declaration"
+	},
+	"When Else": {
+		"prefix": "when_else",
+		"body": [
+			"${1:signal} <= ${2:first_value} when ${3:expression}",
+			"\telse ${4:final_value};",
+			"$0"
+		],
+		"description": "concurrent when else declaration"
+	},
 	"While": {
 		"prefix": "while",
 		"body": [
@@ -114,5 +141,15 @@
 			"end loop;"
 		],
 		"description": "while loop block"
+	},
+	"With Select": {
+		"prefix": ["select", "with_select"],
+		"body": [
+			"with ${1:sel} select",
+			"\t${2:signal} <= ${3:first_value} when ${4:select_value},",
+			"\t\t${5:last_value} when others;",
+			"$0"
+		],
+		"description": "concurrent with select declaration"
 	}
 }
