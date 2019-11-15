@@ -1,0 +1,74 @@
+{
+	// TODO: package generics
+	// TODO: configuration
+	"Architecture Interface": {
+		"prefix": "architecture",
+		"body": [
+			"architecture ${1:behav} of ${2:$TM_FILENAME_BASE} is",
+			"\t$0",
+			"begin",
+			"end architecture;"
+		],
+		"description": "architecture interface"
+	},
+	"Block Interface": {
+		"prefix": "block",
+		"body": [
+			"blk_${1:blockName} : block ${2| ,optional_guard_expression|}",
+			"begin",
+			"\t$0",
+			"end block;"
+		],
+		"description": "block interface"
+	},
+	"Component Interface": {
+		"prefix":"component",
+		"body": [
+			"component ${1:comp_name} is",
+			"\tgeneric (",
+			"\t\t${2:generics}",
+			"\t);",
+			"\tport (",
+			"\t\t${3:clk   : in std_logic;}",
+			"\t\t${4:reset : in std_logic;}",
+			"\t\t$0",
+			"\t);",
+			"end component;"
+		],
+		"description": "component interface"
+	},
+	"Entity Interface": {
+	"prefix": "entity",
+		"body": [
+			"entity ${1:$TM_FILENAME_BASE} is",
+			"\tgeneric (",
+			"\t\t${2:generics}",
+			"\t);",
+			"\tport (",
+			"\t\t${3:clk   : in std_logic;}",
+			"\t\t${4:reset : in std_logic;}",
+			"\t\t$0",
+			"\t);",
+			"end entity;"
+		],
+		"description": "entity interface"
+	},
+	"Package Interface": {
+		"prefix": "package",
+		"body": [
+			"package ${1:$TM_FILENAME_BASE} is",
+			"\t$0",
+			"end package;"
+		],
+		"description": "package interface"
+	},
+	"Package Body Interface": {
+		"prefix": "package_body",
+		"body": [
+			"package body ${1:$TM_FILENAME_BASE} is",
+			"\t$0",
+			"end package;"
+		],
+		"description": "package body interface"
+	}
+}

@@ -45,15 +45,23 @@
 		"snippets": [
 			{
 				"language": "vhdl",
-				"path": "./snippets/snippets.vhdl.json"
+				"path": "./snippets/snippets.vhdl.generate.json"
 			},
 			{
 				"language": "vhdl",
-				"path": "./snippets/snippets.vhdl.libraries.json"
+				"path": "./snippets/snippets.vhdl.declaration.json"
 			},
 			{
 				"language": "vhdl",
-				"path": "./snippets/snippets.vhdl.types.json"
+				"path": "./snippets/snippets.vhdl.interface.json"
+			},
+			{
+				"language": "vhdl",
+				"path": "./snippets/snippets.vhdl.library.json"
+			},
+			{
+				"language": "vhdl",
+				"path": "./snippets/snippets.vhdl.locic.json"
 			}
 		],
 		"commands": [

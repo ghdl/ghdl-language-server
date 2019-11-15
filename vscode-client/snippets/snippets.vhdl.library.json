@@ -48,7 +48,7 @@
 	"Use IEEE Package": {
 		"prefix": "use_ieee",
 		"body": [
-			"use ieee.${1|std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex|}.all;",
+			"use ieee.${1|std_logic_1164,std_logic_textio,numeric_std,numeric_bit,math_real,math_complex|}.all;",
 			"$0"
 		],
 		"description": "use clause IEEE standard package (std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex)"

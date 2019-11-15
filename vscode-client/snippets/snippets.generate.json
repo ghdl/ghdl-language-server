@@ -1,0 +1,47 @@
+{
+	"Generate Case 2008": {
+		"prefix": "generate_case_2008",
+		"body": [
+			"gen_${1:generateName} : case ${1:select} generate",
+			"\twhen ${2:others} =>",
+			"\t\t${3:null;}",
+			"\t$0",
+			"end generate;"
+		],
+		"description": "case generate instantiation (vhdl 2008)"
+	},
+	"Generate If": {
+		"prefix": "generate_if",
+		"body": [
+			"gen_${1:generateName} : if ${2:expression} generate",
+			"\t$0",
+			"end generate;"
+		],
+		"description": "if generate instantiation"
+	},
+	"Generate Elsif 2008": {
+		"prefix": "generate_elsif_2008",
+		"body": [
+			"elsif ${1:expression} generate",
+			"\t$0"
+		],
+		"description": "elsif generate instantiation (vhdl 2008)"
+	},
+	"Generate Else 2008": {
+		"prefix": "generate_else_2008",
+		"body": [
+			"\telse generate",
+			"\t\t$0"
+		],
+		"description": "else generate instantiation (vhdl 2008)"
+	},
+	"Generate For": {
+		"prefix": "generate_for",
+		"body": [
+			"gen_loop_${1:generateName} : for ${2:i} in ${3:range} generate",
+			"\t$0",
+			"end generate;"
+		],
+		"description": "for generate loop instantiation (vhdl 2008)"
+	}
+}
