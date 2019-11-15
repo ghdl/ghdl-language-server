@@ -9,77 +9,6 @@
 	// TODO: figure out how to column align with snippets such that when new lines are made for things like when/else
 	//       or with select, cursor for next line is aligned with <=
 
-	"Library": {
-		"prefix": "library",
-		"body": [
-			"library ${1:ieee};",
-			"$0"
-		],
-		"description": "library declaration"
-	},
-	"Library TextIO": {
-		"prefix": "library_textio",
-		"body": [
-			"library std;",
-			"use std.textio.all;",
-			"$0"
-		],
-		"description": "TextIO library declaration"
-	},
-	"IEEE Libraries": {
-		"prefix": "library_ieee",
-		"body": [
-			"library ieee;",
-			"use ieee.std_logic_1164.all;",
-			"use ieee.numeric_std.all;",
-			"use ieee.math_real.all;",
-			"$0"
-		],
-		"description": "common IEEE libraries declaration"
-	},
-	"IEEE Libraries 2008": {
-		"prefix": "library_ieee_2008",
-		"body": [
-			"library ieee;",
-			"context ieee.ieee_std_context;",
-			"use ieee.math_real.all;",
-			"$0"
-		],
-		"description": "common IEEE libraries declaration with 2008 standard context (vhdl 2008)"
-	},
-	"Use": {
-		"prefix": "use",
-		"body": [
-			"use ${1:lib.pkg}.all;",
-			"$0"
-		],
-		"description": "use clause"
-	},
-	// TODO: move this up into library_ieee inst and give user option to include any of these
-	"Use IEEE Package": {
-		"prefix": "use_ieee",
-		"body": [
-			"use ieee.${1|std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex|}.all;",
-			"$0"
-		],
-		"description": "use clause IEEE standard package (std_logic_1164,std_logic_textio,numeric_std,math_real,math_complex)"
-	},
-	"Context 2008": {
-		"prefix": "context_2008",
-		"body": [
-			"context ${1:lib.context_name};",
-			"$0"
-		],
-		"description": "context clause (vhdl 2008)"
-	},
-	"Context IEEE 2008": {
-		"prefix": "context_ieee_2008",
-		"body": [
-			"context ieee.${1|ieee_bit_context,ieee_std_context|};",
-			"$0"
-		],
-		"description": "context clause for IEEE standard contexts (ieee_bit_context,ieee_std_context) (vhdl 2008)"
-	},
 	// FIXME: this needs to allow second option with space/;
 	"Others": {
 		"prefix": ["others"],
@@ -438,42 +367,5 @@
 		"prefix": "natural_range",
 		"body": [ "natural range<>" ],
 		"description": "natural range statement"
-	},
-
-
-	"Standard Logic": {
-		"prefix": ["std_logic", "sl"],
-		"body": [ "std_logic${1| := ,;|}$0" ],
-		"description": "type: std_logic"
-	},
-	"Standard Logic Type": {
-		"prefix": ["std_logic", "sl"],
-		"body": [ "std_logic${1| := ,;|}$0" ],
-		"description": "type: std_logic"
-	},
-	"Standard ULogic": {
-		"prefix": ["std_ulogic", "sul"],
-		"body": [ "std_ulogic${1| := ,;|}$0" ],
-		"description": "type: std_ulogic"
-	},
-	"Standard Logic Vector": {
-		"prefix": ["std_logic_vector", "slv"],
-		"body": [ "std_logic_vector($1 ${2|downto,to|} $3)${4| := ,;|}$0" ],
-		"description": "type: std_logic_vector"
-	},
-	"Standard ULogic Vector": {
-		"prefix": ["std_ulogic_vector", "sulv"],
-		"body": [ "std_ulogic_vector($1 ${2|downto,to|} $3)${4| := ,;|}$0" ],
-		"description": "type: std_ulogic_vector"
-	},
-	"Signed": {
-		"prefix": "signed",
-		"body": [ "signed($1 ${2|downto,to|} $3)${4| := ,;|}$0" ],
-		"description": "type: signed"
-	},
-	"Unsigned": {
-		"prefix": "unsigned",
-		"body": [ "unsigned(${1} ${2|downto,to|} ${3})${4| := ,;|}$0" ],
-		"description": "type: unsigned"
 	}
 }
