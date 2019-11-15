@@ -24,21 +24,6 @@
 	"Component": {
 		"prefix":"component",
 		"body": [
-			"${1:instanceName}_inst: ${2:entity work.compName}",
-			"\tgeneric map (",
-			"\t\t${3:generics}",
-			"\t)",
-			"\tport map (",
-			"\t\t${4:clk   => clk,}",
-			"\t\t${5:reset => reset,}",
-			"\t\t$0",
-			"\t);"
-		],
-		"description": "component instantiation"
-	},
-	"Component": {
-		"prefix":"component",
-		"body": [
 			"component ${1:comp_name} is",
 			"\tgeneric (",
 			"\t\t${2:generics}",
@@ -51,6 +36,21 @@
 			"end component;"
 		],
 		"description": "component interface"
+	},
+	"Component Instantiation": {
+		"prefix":"component_instantiation",
+		"body": [
+			"${1:instanceName}_inst: ${2:entity work.compName}",
+			"\tgeneric map (",
+			"\t\t${3:generics}",
+			"\t)",
+			"\tport map (",
+			"\t\t${4:clk   => clk,}",
+			"\t\t${5:reset => reset,}",
+			"\t\t$0",
+			"\t);"
+		],
+		"description": "component instantiation"
 	},
 	"Entity": {
 	"prefix": "entity",
