@@ -1,0 +1,155 @@
+{
+	"Assert": {
+		"prefix": "assert",
+		"body": [
+			"assert ${1:expression}",
+			"\treport \"${2:string}\"",
+			"\tseverity ${3|note,warning,error,failure|};",
+			"$0"
+		 ],
+		"description": "assert declaration"
+	},
+	"Case": {
+		"prefix": "case",
+		"body": [
+			"case ${1:sel} is",
+			"\twhen ${2:others} =>",
+			"\t\t${3:null;}",
+			"\t$0",
+			"end case;"
+		],
+		"description": "case block"
+	},
+	"If": {
+		"prefix": "if",
+		"body": [
+			"if ${1:expression} then",
+			"\t$0",
+			"end if;"
+		],
+		"description": "if block"
+	},
+	"Elsif": {
+		"prefix": "elsif",
+		"body": [
+			"elsif ${1:expression} then",
+			"\t$0"
+		],
+		"description": "elsif block"
+	},
+	"Else": {
+		"prefix": "else",
+		"body": [
+			"else",
+			"\t$0"
+		],
+		"description": "else block"
+	},
+	"For": {
+		"prefix": "for",
+		"body": [
+			"for ${1:i} in ${2:range} loop",
+			"\t$0",
+			"end loop;"
+		],
+		"description": "for loop block"
+	},
+	"Process Asynchronous": {
+		"prefix": "process_asynchronous",
+		"body": [
+			"process (${1:clk}, ${2:reset})",
+			"begin",
+			"\tif $2 = ${3|'1','0'|} then",
+			"\t\t$4",
+			"\telsif rising_edge($1) then",
+			"\t\t$0",
+			"\tend if;",
+			"end process;"
+		],
+		"description": "asynchronous process block"
+	},
+	"Process Synchronous": {
+		"prefix": ["process_synchronous"],
+		"body": [
+			"process (${1:clk})",
+			"begin",
+			"\tif rising_edge($1) then",
+			"\t\tif ${2:reset} = ${3|'1','0'|} then",
+			"\t\t\t$4",
+			"\t\telse",
+			"\t\t\t$0",
+			"\t\tend if;",
+			"\tend if;",
+			"end process;"
+		],
+		"description": "clocked process block"
+	},
+	"Process Clocked": {
+		"prefix": ["process_clocked"],
+		"body": [
+			"process (${1:clk})",
+			"begin",
+			"\tif rising_edge($1) then",
+			"\t\t$0",
+			"\tend if;",
+			"end process;"
+		],
+		"description": "clocked process block"
+	},
+	"Process Combinatorial": {
+		"prefix": "process_combinatorial",
+		"body": [
+			"process (${1:sensitivity_list})",
+			"begin",
+			"\t$0",
+			"end process;"
+		],
+		"description": "combinatorial process block"
+	},
+	"Process Combinatorial 2008": {
+		"prefix": "process_combinatorial_2008",
+		"body": [
+			"process (all)",
+			"begin",
+			"\t$0",
+			"end process;"
+		],
+		"description": "combinatorial process block (vhdl 2008)"
+	},
+	"When": {
+		"prefix": "when",
+		"body": [
+			"when ${1:others} =>",
+			"\t$0"
+		],
+		"description": "when declaration"
+	},
+	"When Else": {
+		"prefix": "when_else",
+		"body": [
+			"${1:signal} <= ${2:first_value} when ${3:expression}",
+			"\telse ${4:final_value};",
+			"$0"
+		],
+		"description": "concurrent when else declaration"
+	},
+	"While": {
+		"prefix": "while",
+		"body": [
+			"while ${1:expression} loop",
+			"\t$0",
+			"end loop;"
+		],
+		"description": "while loop block"
+	},
+	"With Select": {
+		"prefix": ["select", "with_select"],
+		"body": [
+			"with ${1:sel} select",
+			"\t${2:signal} <= ${3:first_value} when ${4:select_value},",
+			"\t\t${5:last_value} when others;",
+			"$0"
+		],
+		"description": "concurrent with select declaration"
+	}
+}

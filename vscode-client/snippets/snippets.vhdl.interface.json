@@ -1,0 +1,125 @@
+{
+	// TODO: package generics
+	// TODO: configuration
+	"Architecture": {
+		"prefix": "architecture",
+		"body": [
+			"architecture ${1:behav} of ${2:$TM_FILENAME_BASE} is",
+			"\t$0",
+			"begin",
+			"end architecture;"
+		],
+		"description": "architecture interface"
+	},
+	"Block": {
+		"prefix": "block",
+		"body": [
+			"blk_${1:blockName} : block ${2| ,optional_guard_expression|}",
+			"begin",
+			"\t$0",
+			"end block;"
+		],
+		"description": "block interface"
+	},
+	"Component": {
+		"prefix":"component",
+		"body": [
+			"component ${1:comp_name} is",
+			"\tgeneric (",
+			"\t\t${2:generics}",
+			"\t);",
+			"\tport (",
+			"\t\t${3:clk   : in std_logic;}",
+			"\t\t${4:reset : in std_logic;}",
+			"\t\t$0",
+			"\t);",
+			"end component;"
+		],
+		"description": "component interface"
+	},
+	"Component Instantiation": {
+		"prefix":"component_instantiation",
+		"body": [
+			"${1:instanceName}_inst: ${2:entity work.compName}",
+			"\tgeneric map (",
+			"\t\t${3:generics}",
+			"\t)",
+			"\tport map (",
+			"\t\t${4:clk   => clk,}",
+			"\t\t${5:reset => reset,}",
+			"\t\t$0",
+			"\t);"
+		],
+		"description": "component instantiation"
+	},
+	"Entity": {
+	"prefix": "entity",
+		"body": [
+			"entity ${1:$TM_FILENAME_BASE} is",
+			"\tgeneric (",
+			"\t\t${2:generics}",
+			"\t);",
+			"\tport (",
+			"\t\t${3:clk   : in std_logic;}",
+			"\t\t${4:reset : in std_logic;}",
+			"\t\t$0",
+			"\t);",
+			"end entity;"
+		],
+		"description": "entity interface"
+	},
+	"Generic": {
+		"prefix": "generic",
+		"body": [
+			"generic (",
+			"\t${2:generics}",
+			");"
+		],
+		"description": "generic interface"
+	},
+	"Generic Map": {
+		"prefix": "generic_map",
+		"body": [
+			"generic map (",
+			"\t${2:generics}",
+			")"
+		],
+		"description": "generic map interface"
+	},
+	"Package": {
+		"prefix": "package",
+		"body": [
+			"package ${1:$TM_FILENAME_BASE} is",
+			"\t$0",
+			"end package;"
+		],
+		"description": "package interface"
+	},
+	"Package Body": {
+		"prefix": "package_body",
+		"body": [
+			"package body ${1:$TM_FILENAME_BASE} is",
+			"\t$0",
+			"end package;"
+		],
+		"description": "package body interface"
+	},
+	"Port": {
+		"prefix": "port",
+		"body": [
+			"port (",
+			"\t${2:ports}",
+			");"
+		],
+		"description": "port interface"
+	},
+	"Port Map": {
+		"prefix": "port_map",
+		"body": [
+			"port map (",
+			"\t${2:ports}",
+			");"
+		],
+		"description": "port map interface"
+	}
+}
