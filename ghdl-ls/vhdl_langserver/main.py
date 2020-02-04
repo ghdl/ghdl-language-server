@@ -104,10 +104,16 @@ def main():
 
     conn = lsp.LSPConn(instream, sys.stdout.buffer)
 
-    if args.trace_file is not None:
-        rotate_log_files(args.trace_file + '.in', 5)
-        rotate_log_files(args.trace_file + '.out', 5)
-        conn = LSPConnTrace(args.trace_file, conn)
+    trace_file = args.trace_file
+    if trace_file is None:
+        trace_file = os.environ.get('GHDL_LS_TRACE')
+    if trace_file is not None:
+        if args.input is None:
+            rotate_log_files(trace_file + '.in', 5)
+            rotate_log_files(trace_file + '.out', 5)
+            conn = LSPConnTrace(trace_file, conn)
+        else:
+            logger.info('Traces disabled when -i/--input')
 
     handler = vhdl_ls.VhdlLanguageServer()
 
