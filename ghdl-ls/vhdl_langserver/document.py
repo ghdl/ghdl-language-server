@@ -114,10 +114,6 @@ class Document(object):
             self._fe, ctypes.c_char_p(text_bytes), len(text_bytes))
 
     @staticmethod
-    def parse_document(sfe):
-        return sem_lib.Load_File(sfe)
-
-    @staticmethod
     def add_to_library(tree):
         # Detach the chain of units.
         unit = nodes.Get_First_Design_Unit(tree)
@@ -138,16 +134,24 @@ class Document(object):
             unit = next_unit
         return tree
 
+    def parse_document(self):
+        """Parse a document and put the units in the library"""
+        assert self._tree == nodes.Null_Iir
+        tree = sem_lib.Load_File(self._fe)
+        if tree == nodes.Null_Iir:
+            return
+        self._tree = Document.add_to_library(tree)
+        log.debug("add_to_library(%u) -> %u", tree, self._tree)
+        if self._tree == nodes.Null_Iir:
+            return
+        nodes.Set_Design_File_Source(self._tree, self._fe)
+
     def compute_diags(self):
         log.debug("parse doc %d %s", self._fe, self.uri)
-        tree = Document.parse_document(self._fe)
-        assert self._tree == nodes.Null_Iir
-        self._tree = Document.add_to_library(tree)
+        self.parse_document()
         if self._tree == nodes.Null_Iir:
             # No units, nothing to add.
             return
-        nodes.Set_Design_File_Source(self._tree, self._fe)
-        log.debug("add_to_library(%u) -> %u", tree, self._tree)
         # Semantic analysis.
         unit = nodes.Get_First_Design_Unit(self._tree)
         while unit != nodes.Null_Iir:

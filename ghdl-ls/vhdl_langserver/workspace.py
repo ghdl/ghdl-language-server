@@ -91,7 +91,12 @@ class Workspace(object):
         return self._create_document(doc_uri, sfe)
 
     def get_or_create_document(self, doc_uri):
-        return self._docs.get(doc_uri) or self.create_document_from_uri(doc_uri)
+        res = self.get_document(doc_uri)
+        if res is not None:
+            return res
+        res = self.create_document_from_uri(doc_uri)
+        res.parse_document()
+        return res
 
     def get_document(self, doc_uri):
         """Get a document from :param doc_uri:  Note that the document may not exist,
@@ -140,9 +145,7 @@ class Workspace(object):
                 "cannot load {}: {}".format(name, err.strerror))
             return
         doc = self.create_document_from_sfe(sfe, absname)
-        doc._tree = document.Document.parse_document(sfe)
-        if doc._tree != nodes.Null_Iir:
-            doc._tree = document.Document.add_to_library(doc._tree)
+        doc.parse_document()
 
     def read_project(self):
         prj_file = os.path.join(self.root_path, 'hdl-prj.json')
