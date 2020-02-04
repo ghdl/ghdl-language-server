@@ -83,7 +83,7 @@ Subdir `vscode-client` contains the sources of a VSC Extension; a LSP client tha
 
 ## Build
 
-> HINT: On debian, installing `npm` from repositories (`sudo apt install npm`) will install a version 5.x of `npm`, incompatible with Node.js 10.x.
+> HINT: On debian, installing `npm` from repositories (`sudo apt install npm`) will probably install an outdated version of npm with regard to Node.js version. This will make any npm install operation fail.
 >
 > Therefore, you will need to upgrade `npm` using `sudo npm install -g npm@latest` and restart your terminal before going further
 
