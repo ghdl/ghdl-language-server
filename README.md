@@ -83,10 +83,14 @@ Subdir `vscode-client` contains the sources of a VSC Extension; a LSP client tha
 
 ## Build
 
+> HINT: On debian, installing `npm` from repositories (`sudo apt install npm`) will install a version 5.x of `npm`, incompatible with Node.js 10.x.
+>
+> Therefore, you will need to upgrade `npm` using `sudo npm install -g npm@latest` and restart your terminal before going further
+
 - Install `npm` or `yarn`.
 - Install `vsce` through `npm install -g vsce` or `yarn global add vsce`.
 - Get the sources. For example: `curl -fsSL https://codeload.github.com/ghdl/ghdl-language-server/tar.gz/master | tar xzf - --strip-components=2 ghdl-language-server-master/vscode-client`
-- The first time, execute `npm install` to install package dependencies.
+- The first time, execute `npm install` or `yarn` to install package dependencies.
 - Execute `vsce package` or `vsce package --yarn`.
 - The output is a file named `vhdl-lsp-*.vsix`.
 
