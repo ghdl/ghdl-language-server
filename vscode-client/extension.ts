@@ -51,18 +51,21 @@ async function instantiate_entity() {
 		let textEditor = vscode.window.activeTextEditor
 		if (!textEditor)
 			return
-		let snippet = '${0:my_inst}: ' + `entity ${res.library}.${res.entity}`
+		let snippet = '${1:my_inst}: ' + `entity ${res.library}.${res.entity}`
+		let placeholder_pos = 2
 		function gen_interfaces(name: string, inters): string {
 			if (!inters)
 				return ''
 			let isfirst = true
-		 	let r = `\n  ${name} map (`
-		 	for (let g of inters) {
+			 let r = `\n  ${name} map (`
+			 for (let g of inters) {
 				if (isfirst)
 					isfirst = false
 				else
 					r += ','
-		  		r += `\n    ${g.name} => ${g.name}`
+				r += `\n    ${g.name} => \${${placeholder_pos}:${g.name}}`
+				
+				placeholder_pos +=1;
 			}
 			return r + '\n  )'
 		}
