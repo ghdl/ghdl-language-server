@@ -32,7 +32,7 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
         'attrs',
-        'libghdl==0.37.dev0'
+        'libghdl==0.1.dev0'
     ],
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
