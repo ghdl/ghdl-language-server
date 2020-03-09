@@ -1,40 +1,13 @@
 A [Language Server Protocol (LSP)](https://en.wikipedia.org/wiki/Language_Server_Protocol) server for VHDL based on [GHDL](https://github.com/ghdl/ghdl), and a client for Visual Studio Code (VSC). The LSP server can be integrated in other text editors or IDES, such as, Vim, Emacs, Atom or Theia. Contributions are welcome!
 
-# ghdl-ls
-
-Subdir `ghdl-ls` contains the sources of a LSP server for VHDL written in Python (3.x), which relies on [libghdl](https://github.com/ghdl/ghdl/tree/master/src/vhdl/python/libghdl) for analysis.
-
 ## Requirements
 
-> IMPORTANT:
->
-> Always use the latest version of GHDL. The Python binding, libghdl, ghdl-ls, etc. may have incompatible changes.
-
-- Build and install [GHDL](https://github.com/ghdl/ghdl). Building the shared library `libghdl` is enabled by default.
-- Install [libghdl-py](https://github.com/ghdl/ghdl/tree/master/src/vhdl/python/libghdl). For example:
+- Build and install [GHDL](https://github.com/ghdl/ghdl). Build of the shared library `libghdl` is enabled by default.
+- Install `ghdl-ls` from GHDL.  For example:
 
 ``` bash
-mkdir libghdl-py
-cd libghdl-py
-curl -fsSL https://codeload.github.com/ghdl/ghdl/tar.gz/master | tar xzf - --strip-components=2 ghdl-master/python
-
+cd python
 pip3 install .
-# or
-export PYTHONPATH=$PYTHONPATH:$(pwd)
-```
-
-## Install
-
-Download subdir `ghdl-ls` from this repo and install it. For example:
-
-``` bash
-mkdir ghdl-ls
-cd ghdl-ls
-curl -fsSL https://codeload.github.com/ghdl/ghdl-language-server/tar.gz/master | tar xzf - --strip-components=2 ghdl-language-server-master/ghdl-ls
-
-pip3 install .
-# or
-export PYTHONPATH=$PYTHONPATH:$(pwd)
 ```
 
 > HINT:
