@@ -74,6 +74,10 @@ Subdir `vscode-client` contains the sources of a VSC Extension; a LSP client tha
 
 > HINT:
 >
+> If you are using [VS Code Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) you also need to install the extension on the VS Code server.  As indicated in [VS Code Remote extension](https://code.visualstudio.com/api/advanced-topics/remote-extensions#installing-a-development-version-of-your-extension), you need to use the `Install from VSIX...` command available in the Extenion view `More actions (...)` menu (click on `...`).
+
+> HINT:
+>
 > VSIX files are actually ZIP files. Hence, it is possible to install an extension by extracting the content to a suitable location. This is useful in the context of the [VS Code Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) feature; which is a [NOT Open Source](https://code.visualstudio.com/docs/remote/faq#_why-arent-the-remote-development-extensions-or-their-components-open-source) component that is *"installed and updated automatically by VS Code when it connects to an endpoint"* and which cannot be used with any other client (see [Can VS Code Server be installed or used on its own?](https://code.visualstudio.com/docs/remote/faq#_can-vs-code-server-be-installed-or-used-on-its-own)).
 >
 > In order to pre-install a VSIX extension in a remote host or a docker image/container where VSC is not available, just extract it to `$HOME/.vscode-server/extensions`. For example:

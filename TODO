@@ -3,7 +3,7 @@ Various ideas of improvements (in no specific order):
 * reformat: realign (per scope or per block) associations/declarations
 * parse after a timeout instead of after each edit (but what about testing?)
 * go to declaration/definition -> for components and subprograms
-* action: add instance (and automatically create a template)
+* action: add instance: ghdl prefix, no generics if none.
 * action: reorder associations (using the declaration order)
 * action: convert from assoc by position to assoc by name
 * find references
@@ -17,6 +17,6 @@ Various ideas of improvements (in no specific order):
 * add file into project
 * project: add library.
 * watch project file and reload.
-* FIX: crash when a file in a project doesn't exist
 * add a signal or jump to declarations
 * style checker
+* vscode: add a option to enable logs.
