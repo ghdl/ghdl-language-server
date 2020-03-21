@@ -71,7 +71,7 @@
 			},
 			{
 				"command": "ghdl-ls.instantiate-entity",
-				"title": "Instantiate an entity"
+				"title": "vhdl: Instantiate an entity"
 			},
 			{
 				"command": "ghdl-ls.shownode",
@@ -92,8 +92,7 @@
 			}
 		},
 		"configuration": {
-			"type": "object",
-			"title": "Vhdl configuration",
+			"title": "Vhdl",
 			"properties": {
 				"vhdl.maxNumberOfProblems": {
 					"scope": "resource",
