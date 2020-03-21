@@ -95,11 +95,7 @@ Subdir `vscode-client` contains the sources of a VSC Extension; a LSP client tha
 
 ## Issues and bug reports
 
-In case of crash of ghdl-ls, you should restart `code` with debugging enabled:
-
-```bash
- $ DEBUG_GHDL_LS=1 code .
-```
+In case of crash of ghdl-ls, you should set the `vhdl.debugLSP` setting to true.
 
 This makes `ghdl-ls` write logs (`vhdl-ls.log`, `vhdl-ls.trace.in` and `vhdl-ls.trace.out`) which should be attached to the issue.
 

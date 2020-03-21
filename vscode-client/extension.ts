@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
 	};
 
 	//  Force debugging
-	let debug: boolean = process.env.DEBUG_GHDL_LS != undefined
+	let debug: boolean = vscode.workspace.getConfiguration().get('vhdl.debugLSP');
 
 	// Create the language client and start the client.
 	client = new LanguageClient(

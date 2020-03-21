@@ -101,15 +101,10 @@
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"vhdl.trace.server": {
+				"vhdl.debugLSP": {
 					"scope": "window",
-					"type": "string",
-					"enum": [
-						"off",
-						"messages",
-						"verbose"
-					],
-					"default": "off",
+					"type": "boolean",
+					"default": false,
 					"description": "Traces the communication between VS Code and the language server."
 				}
 			}
