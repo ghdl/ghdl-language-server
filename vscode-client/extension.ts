@@ -89,7 +89,7 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 		debug: {
 			command: serverPath,
-			args: ['-v', '--log-file=vhdl-ls.log', '--trace-file=vhdl-ls.trace']
+			args: ['-v', '--trace-file=vhdl-ls.trace']
 		}
 	};
 
