@@ -1,0 +1,23 @@
+name: 'vsix'
+
+on:
+  push:
+  pull_request:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: build VSIX package
+      run: |
+        cd vscode-client
+        sudo yarn global add vsce
+        sudo chown -R $USER:$(id -gn $USER) $HOME/.config
+        yarn
+        vsce package
+    - uses: actions/upload-artifact@master
+      with:
+        name: vhdl-lsp-vsix
+        path: vscode-client/vhdl-lsp-*.vsix
