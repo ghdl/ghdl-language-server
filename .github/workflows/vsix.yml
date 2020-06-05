@@ -21,3 +21,9 @@ jobs:
       with:
         name: vhdl-lsp-vsix
         path: vscode-client/vhdl-lsp-*.vsix
+    - run: |
+        curl -X POST https://api.github.com/repos/ghdl/docker/dispatches \
+        -H "Content-Type: application/json" \
+        -H 'Accept: application/vnd.github.everest-preview+json' \
+        -H "Authorization: token ${{ secrets.GHDL_BOT }}" \
+        --data '{"event_type": "ext"}'
