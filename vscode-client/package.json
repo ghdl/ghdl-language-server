@@ -104,7 +104,7 @@
 					"scope": "window",
 					"type": "boolean",
 					"default": false,
-					"description": "Traces the communication between VS Code and the language server."
+					"description": "Increase log verbosity and trace the communication between VS Code and the language server."
 				}
 			}
 		}
