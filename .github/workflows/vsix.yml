@@ -3,6 +3,8 @@ name: 'vsix'
 on:
   push:
   pull_request:
+  schedule:
+    - cron: '0 15 * * 3'
 
 jobs:
 
