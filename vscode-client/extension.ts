@@ -9,16 +9,16 @@ import {
 	LanguageClient,
 	LanguageClientOptions,
 	ServerOptions
-} from 'vscode-languageclient';
+} from 'vscode-languageclient/node';
 import * as vscodelc from 'vscode-languageclient';
 
 namespace ExtraRequest {
 	export const ShowAllFiles =
-		new vscodelc.RequestType0<any, void, void>('workspace/xShowAllFiles')
+		new vscodelc.RequestType0<any, void>('workspace/xShowAllFiles')
 	export const GetAllEntities =
-		new vscodelc.RequestType0<{name: string, library: string}[], void, void>('workspace/xGetAllEntities')
+		new vscodelc.RequestType0<{name: string, library: string}[], void>('workspace/xGetAllEntities')
 	export const GetEntityInterface =
-		new vscodelc.RequestType<{name: string, library: string}, any, void, void>('workspace/xGetEntityInterface')
+		new vscodelc.RequestType<{name: string, library: string}, any, void>('workspace/xGetEntityInterface')
 }
 
 let client: LanguageClient;
