@@ -6,6 +6,8 @@ Various ideas of improvements (in no specific order):
 * action: add instance: ghdl prefix, no generics if none.
 * action: reorder associations (using the declaration order)
 * action: convert from assoc by position to assoc by name
+* action: add missing associations (to open)
+* update messages for dependences ?
 * find references
 * manage memory: un-analyze, free old nodes...
 * verilog ?
@@ -20,3 +22,6 @@ Various ideas of improvements (in no specific order):
 * add a signal or jump to declarations
 * style checker
 * vscode: add a option to enable logs.
+
+* crash: invalid character (S-zet)
+* crash: file in library doesn't exist anymore
