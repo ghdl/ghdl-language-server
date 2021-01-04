@@ -6,7 +6,6 @@ A [Language Server Protocol (LSP)](https://en.wikipedia.org/wiki/Language_Server
 - Install `ghdl-ls` from GHDL.  For example:
 
 ``` bash
-cd python
 pip3 install .
 ```
 
