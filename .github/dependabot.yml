@@ -1,0 +1,11 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/vscode-client"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: ts-loader
+    versions:
+    - 9.0.0
