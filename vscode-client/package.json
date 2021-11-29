@@ -121,7 +121,7 @@
 		"vscode": "^1.62.0"
 	},
 	"devDependencies": {
-		"@types/node": "^16.11.9",
+		"@types/node": "^16.11.10",
 		"@types/vscode": "^1.62.0",
 		"ts-loader": "^9.2.6",
 		"tslint": "^6.1.3",
