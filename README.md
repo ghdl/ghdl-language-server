@@ -35,10 +35,16 @@ An example of `hdl-prj.json` file could be :
     "files": [
         { "file": "rtl/core.vhd",           "language": "vhdl" },
         { "file": "assembly/core_fpga.vhd", "language": "vhdl" },
-        { "file": "sim/tb_core.vhd",        "language": "vhdl" }
+        { "file": "sim/tb_core.vhd",        "library" : "sim", "language": "vhdl" }
     ]
 }
 ```
+
+A library can be specified for a file and the default is `work`.  The
+only `language` supported is `vhdl` (which is the default), a file
+with a unknown language is simply ignored.
+
+The json file must be ASCII or UTF-8 encoded.
 
 You will find all valid options in the GHDL documentation in the [options to invoke GHDL](https://ghdl.readthedocs.io/en/latest/using/InvokingGHDL.html#options).
 
@@ -55,6 +61,7 @@ Subdir `vscode-client` contains the sources of a VSC Extension; a LSP client tha
 - Install `npm` or `yarn`.
 - Install `vsce` through `npm install -g vsce` or `yarn global add vsce`.
 - Get the sources. For example: `curl -fsSL https://codeload.github.com/ghdl/ghdl-language-server/tar.gz/master | tar xzf - --strip-components=2 ghdl-language-server-master/vscode-client`
+- Go to the vscode-client directory: `cd vscode-client`
 - The first time, execute `npm install` or `yarn` to install package dependencies.
 - Execute `vsce package` or `vsce package --yarn`.
 - The output is a file named `vhdl-lsp-*.vsix`.
