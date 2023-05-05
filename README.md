@@ -60,8 +60,7 @@ Subdir `vscode-client` contains the sources of a VSC Extension; a LSP client tha
 
 - Install `npm` or `yarn`.
 - Install `vsce` through `npm install -g vsce` or `yarn global add vsce`.
-- Get the sources. For example: `curl -fsSL https://codeload.github.com/ghdl/ghdl-language-server/tar.gz/master | tar xzf - --strip-components=1 ghdl-language-server-master/vscode-client`
-- Go to the vscode-client directory: `cd vscode-client`
+- Get the sources of the `vscode-client`. For example: `curl -fsSL https://codeload.github.com/ghdl/ghdl-language-server/tar.gz/master | tar xzf - --strip-components=1 ghdl-language-server-master/vscode-client`
 - The first time, execute `npm install` or `yarn` to install package dependencies.
 - Execute `vsce package` or `vsce package --yarn`.
 - The output is a file named `vhdl-lsp-*.vsix`.
