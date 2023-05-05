@@ -19,6 +19,7 @@ jobs:
         sudo yarn global add vsce
         sudo chown -R $USER:$(id -gn $USER) $HOME/.config
         yarn
+        cp ../LICENSE.txt ./
         vsce package
     - uses: actions/upload-artifact@master
       with:
