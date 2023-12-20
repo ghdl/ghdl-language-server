@@ -121,3 +121,15 @@ All of these can be used with VSC's 'Remote - Containers' Extension as follows:
 # Emacs extension
 
 Subdir `emacs-client` contains instructions and an example configuration init file for use with emacs, including a LSP client that allows to have ghdl-ls integrated in Emacs.
+
+It can be also set up automatically by installing the package
+[`vhdl-ext`](https://github.com/gmlarumbe/vhdl-ext/) and adding the
+following snippet to your config:
+
+```elisp
+(require 'vhdl-ext)
+(vhdl-ext-mode-setup)
+(vhdl-ext-eglot-set-server 've-ghdl-ls) ;`eglot' config
+(vhdl-ext-lsp-set-server 've-ghdl-ls)   ; `lsp' config
+```
+
