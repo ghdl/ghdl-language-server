@@ -90,3 +90,7 @@ Flymake is a modern on-the-fly syntax checking extension for GNU Emacs.
                                      default-directory "hdl-prj.json"))
                            (eglot-ensure)))))
 #+end_src
+
+* Advanced
+
+For a more advanced example, see [[https://git.sr.ht/~csantosb/emacs.vhdl-ide][here]].
