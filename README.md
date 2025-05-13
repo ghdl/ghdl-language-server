@@ -13,6 +13,17 @@ pip3 install .
 > - To install for development: `pip install -e .`
 > - Add `--user` to install in your home directory.
 
+## Pre-built packages
+
+Some GNU/Linux distributions provide pre-built packages.
+
+- On [Guix](https://guix.gnu.org/), the [guix-science](https://codeberg.org/guix-science/guix-science) channel provides binaries for both ghdl and ghdl-lsp
+
+```sh
+guix install ghdl-lsp # pulls ghdl-llvm
+
+```
+
 ## Usage
 
 The executable is named `ghdl-ls`. It uses stdin/stdout to communicate with
