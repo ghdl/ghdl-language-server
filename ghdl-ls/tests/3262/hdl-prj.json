@@ -1,0 +1,11 @@
+{
+	"options": {
+		"ghdl_analysis": [
+			"--std=08"
+		]
+	},
+
+	"files": [
+		{ "file": "misc_utils_package.vhd", "language" : "vhdl", "library" : "mylib" }
+	]
+}
