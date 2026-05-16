@@ -115,9 +115,6 @@ export function activate(context: vscode.ExtensionContext) {
 		debug
 	);
 
-	// Start the client. This will also launch the server
-	context.subscriptions.push(client.start());
-
 	context.subscriptions.push(vscode.commands.registerCommand(
 		'ghdl-ls.showallfiles', async () => {
 			let oc = vscode.window.createOutputChannel('all-files');
@@ -138,6 +135,9 @@ export function activate(context: vscode.ExtensionContext) {
 	))
 	context.subscriptions.push(vscode.commands.registerCommand(
 		'ghdl-ls.instantiate-entity', instantiate_entity))
+		
+	// Start the client. This will also launch the server
+	client.start();
 }
 
 export function deactivate(): Thenable<void> | undefined {

@@ -3,7 +3,7 @@
 	"description": "VHDL language server",
 	"author": "Tristan Gingold",
 	"license": "GPL-2.0-or-later",
-	"version": "0.1.0-dev",
+	"version": "0.2.0-dev",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ghdl/ghdl-language-server"
@@ -130,6 +130,6 @@
 		"webpack-cli": "^5.1.4"
 	},
 	"dependencies": {
-		"vscode-languageclient": "^7.0.0"
+		"vscode-languageclient": "^8.1.0"
 	}
 }
