@@ -14,6 +14,34 @@ class StrConn:
         self.res += s
 
 
+def compare_json(ref, res):
+    if isinstance(ref, dict) and isinstance(res, dict):
+        for k in ref:
+            if k not in res:
+                return False
+            else:
+                return compare_json(ref[k], res[k])
+        for k in res:
+            if k not in ref:
+                return False
+    elif isinstance(ref, str) and isinstance(res, str):
+        if res != ref:
+            return not ref.startswith("@IGN@")
+    elif isinstance(ref, int) and isinstance(res, int):
+        if res != ref:
+            return False
+    elif isinstance(ref, list) and isinstance(res, list):
+        for i in range(min(len(ref), len(res))):
+            if not compare_json(ref[i], res[i]):
+                return False
+        if len(ref) > len(res):
+            return False
+        elif len(ref) < len(res):
+            return False
+    else:
+        raise Exception('unhandled type {} in {}'.format(type(ref), name))
+    return True
+
 def show_diffs(name, ref, res):
     if isinstance(ref, dict) and isinstance(res, dict):
         for k in ref:
@@ -26,6 +54,8 @@ def show_diffs(name, ref, res):
                 print('{}.{} unexpected in the result'.format(name, k))
     elif isinstance(ref, str) and isinstance(res, str):
         if res != ref:
+            if ref.startswith("@IGN@"):
+                return
             print('{}: mismatch (ref: {}, result: {})'.format(name, ref, res))
     elif isinstance(ref, int) and isinstance(res, int):
         if res != ref:
@@ -95,10 +125,13 @@ def run_compare(req_name, rep_name):
             break
         rep = json.loads(rep)
         json_res.append(rep)
-        if rep != r:
+        if not compare_json(r, rep):
             print('FAIL: reply does not match for {}'.format(req_name))
+            print('## Reply:')
             print(rep)
+            print('## Baseline:')
             print(r)
+            print('## Diff:')
             show_diffs('', r, rep)
             errs += 1
     rep = ls.read_request()

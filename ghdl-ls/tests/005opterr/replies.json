@@ -1,6 +1,14 @@
 [
   {
     "jsonrpc": "2.0",
+    "method": "window/showMessage",
+    "params": {
+      "type": 1,
+      "message": "error with option: --unknown-option"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
     "id": 0,
     "result": {
       "capabilities": {
@@ -28,7 +36,7 @@
     "jsonrpc": "2.0",
     "method": "textDocument/publishDiagnostics",
     "params": {
-      "uri": "file:///home/tgingold/work/ghdl-language-server/ghdl-ls/tests/files/heartbeat.vhdl",
+      "uri": "file://@CWD@/files/heartbeat.vhdl",
       "diagnostics": []
     }
   },
@@ -40,7 +48,7 @@
         "kind": 2,
         "name": "heartbeat",
         "location": {
-          "uri": "file:///home/tgingold/work/ghdl-language-server/ghdl-ls/tests/files/heartbeat.vhdl",
+          "uri": "file://@CWD@/files/heartbeat.vhdl",
           "range": {
             "start": {
               "line": 4,
@@ -57,7 +65,7 @@
         "kind": 2,
         "name": "behaviour",
         "location": {
-          "uri": "file:///home/tgingold/work/ghdl-language-server/ghdl-ls/tests/files/heartbeat.vhdl",
+          "uri": "file://@CWD@/files/heartbeat.vhdl",
           "range": {
             "start": {
               "line": 8,
@@ -74,7 +82,7 @@
         "kind": 6,
         "name": "clk_process",
         "location": {
-          "uri": "file:///home/tgingold/work/ghdl-language-server/ghdl-ls/tests/files/heartbeat.vhdl",
+          "uri": "file://@CWD@/files/heartbeat.vhdl",
           "range": {
             "start": {
               "line": 13,
@@ -90,7 +98,7 @@
           "kind": 2,
           "name": "behaviour",
           "location": {
-            "uri": "file:///home/tgingold/work/ghdl-language-server/ghdl-ls/tests/files/heartbeat.vhdl",
+            "uri": "file://@CWD@/files/heartbeat.vhdl",
             "range": {
               "start": {
                 "line": 8,
