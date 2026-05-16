@@ -241,7 +241,7 @@
     "method": "textDocument/documentSymbol",
     "params": {
       "textDocument": {
-        "uri": "file://../files/hello.vhdl"
+        "uri": "file://@CWD@/files/hello.vhdl"
       }
     }
   }

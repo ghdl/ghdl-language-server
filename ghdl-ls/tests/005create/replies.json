@@ -11,8 +11,9 @@
             "includeText": true
           }
         },
-        "hoverProvider": false,
+        "hoverProvider": true,
         "definitionProvider": true,
+	"implementationProvider": true,
         "referencesProvider": false,
         "documentHighlightProvider": false,
         "documentSymbolProvider": true,
@@ -24,8 +25,28 @@
     }
   },
   {
-    "jsonrpc": "2.0",
-    "id": 7,
-    "result": []
+      "jsonrpc": "2.0",
+      "id": 7,
+      "result": [
+	  {"kind": 2,
+	   "name": "hello_world",
+	   "location": {
+	       "uri": "file://@CWD@/files/hello.vhdl",
+	       "range": {
+		   "start": {"line": 5, "character": 0},
+		   "end": {"line": 6, "character": 0}
+	       }
+	   }
+	  },
+	  {"kind": 2,
+	   "name": "behaviour",
+	   "location": {
+	       "uri": "file://@CWD@/files/hello.vhdl",
+	       "range": {"start": {"line": 8, "character": 0},
+			 "end": {"line": 17, "character": 0}
+			}
+	   }
+	  }
+      ]
   }
 ]

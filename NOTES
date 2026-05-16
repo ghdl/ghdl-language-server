@@ -4,7 +4,7 @@ Common options:
   
 Converting from lsp to json (for writing tests):
 
-  python3 -m vhdl_langserver.lsptools lsp2json < vhdl-ls.trace.in > cmds.json
+  python3 -m pyGHDL.lsp.lsptools lsp2json < vhdl-ls.trace.in > cmds.json
 
 Creating a project from HDLMake:
 

@@ -17,7 +17,7 @@ class Job(object):
     def __init__(self, dirname, poll):
         self.dirname = dirname
         self.poll = poll
-        self.out = ''
+        self.out = b''
         self.p = None
         self.out_fd = None
 

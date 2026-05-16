@@ -2,8 +2,9 @@ import os
 import sys
 import io
 import json
-import vhdl_langserver.lsp as lsp
+import pyGHDL.lsp.lsp as lsp
 import subprocess
+import pathlib
 
 class StrConn:
     def __init__(self):
@@ -25,10 +26,10 @@ def show_diffs(name, ref, res):
                 print('{}.{} unexpected in the result'.format(name, k))
     elif isinstance(ref, str) and isinstance(res, str):
         if res != ref:
-            print('{}: mismatch (ref: {}, result: {})'.format(name, res, ref))
+            print('{}: mismatch (ref: {}, result: {})'.format(name, ref, res))
     elif isinstance(ref, int) and isinstance(res, int):
         if res != ref:
-            print('{}: mismatch (ref: {}, result: {})'.format(name, res, ref))
+            print('{}: mismatch (ref: {}, result: {})'.format(name, ref, res))
     elif isinstance(ref, list) and isinstance(res, list):
         for i in range(min(len(ref), len(res))):
             show_diffs('{}[{}]'.format(name, i), ref[i], res[i])
@@ -39,16 +40,37 @@ def show_diffs(name, ref, res):
     else:
         print('unhandle type {} in {}'.format(type(ref), name))
 
+def subst_cwd(obj):
+    cwd = pathlib.Path.cwd().parent
+    return subst_json(obj, str(cwd))
+
+def subst_json(obj, cwd):
+    if isinstance(obj, str):
+        return obj.replace('@CWD@', cwd)
+    elif isinstance(obj, list):
+        return [subst_json(e, cwd) for e in obj]
+    elif isinstance(obj, dict):
+        return {k: subst_json(v, cwd) for k, v in obj.items()}
+    elif isinstance(obj, (bool, int)):
+        return obj
+    elif obj is None:
+        return obj
+    else:
+        print('unhandled type {}'.format(type(obj)))
+
 def run_compare(req_name, rep_name):
     # Convert the JSON input file to an LSP string.
     res = json.load(open(req_name, 'r'))
+    res = subst_cwd(res)
     conn = StrConn()
     ls = lsp.LanguageProtocolServer(None, conn)
     for req in res:
         ls.write_output(req)
+    # Save to investigate
+    open('replay.in', 'w').write(conn.res)
 
     # Run
-    p = subprocess.run([os.environ.get('GHDLLS', '../../ghdl-ls')],
+    p = subprocess.run([os.environ.get('GHDLLS', 'ghdl-ls')],
         input=conn.res.encode('utf-8'), stdout=subprocess.PIPE)
     if p.returncode != 0:
         print('FAIL: exit != 0')
@@ -62,6 +84,7 @@ def run_compare(req_name, rep_name):
     conn = lsp.LSPConn(in_io, None)
     ls = lsp.LanguageProtocolServer(None, conn)
     ref = json.load(open(rep_name, 'r'))
+    ref = subst_cwd(ref)
     errs = 0
     json_res = []
     for r in ref:

@@ -19,8 +19,9 @@
             "includeText": true
           }
         },
-        "hoverProvider": false,
+        "hoverProvider": true,
         "definitionProvider": true,
+        "implementationProvider": true,
         "referencesProvider": false,
         "documentHighlightProvider": false,
         "documentSymbolProvider": true,
